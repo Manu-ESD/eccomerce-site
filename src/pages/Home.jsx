@@ -1,10 +1,11 @@
 import React from "react";
 import Layout from "../components/Layout";
+import FilterSelect from "../components/FilterSelect";
 
 const Home = () => {
   return (
     <Layout>
-      <div className=" min-h-screen"> Home </div>
+      <div className=" min-h-screen"> <FilterSelect/> </div>
     </Layout>
   );
 };
