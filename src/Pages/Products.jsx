@@ -11,7 +11,7 @@ const Products = () => {
   const getProducts = async () => {
     const data = await fetch("https://fakestoreapi.com/products/");
     const json = await data.json();
-    console.log(json);
+    // console.log(json);
     setProducts(json);
     setFilteredProducts(json);
   };
@@ -49,7 +49,7 @@ const Products = () => {
     setFilteredProducts(values);
   }
 
-  console.log(Products);
+  // console.log(Products);
 
   return (
     <Layout>
