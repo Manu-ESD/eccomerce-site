@@ -2,11 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import ProductCard from "../components/ProductCard";
 import { ShimmerSimpleGallery } from "react-shimmer-effects-18";
 import Layout from "../components/Layout";
+import FilterSelect from "../components/FilterSelect";
 
 const Products = () => {
   const [Products, setProducts] = useState([]);
   const [FilteredProducts, setFilteredProducts] = useState([]);
   const [SearchValue, setSearchValue] = useState([]);
+
+  const optionsForSortByPrice = ["high to low", "low to high"];
+  const optionsForSortByRating = ["high to low", "low to high"];
 
   const getProducts = async () => {
     const data = await fetch("https://fakestoreapi.com/products/");
@@ -33,6 +37,7 @@ const Products = () => {
 
   function handleReset() {
     setFilteredProducts(Products);
+    filterreset();
   }
 
   function handleAbove4Start() {
@@ -48,6 +53,52 @@ const Products = () => {
     });
     setFilteredProducts(values);
   }
+
+  function sortByPriceHighToLow() {
+    const values = [...FilteredProducts].sort((p1, p2) =>
+      p1.price < p2.price ? 1 : p1.price > p2.price ? -1 : 0
+    );
+    setFilteredProducts(values);
+    console.log(values);
+    console.log("sortedbyprice");
+  }
+
+  function sortByRatingHighToLow() {
+    const values = [...FilteredProducts].sort((r1, r2) =>
+      r1.rating.rate < r2.rating.rate
+        ? 1
+        : r1.rating.rate > r2.rating.rate
+        ? -1
+        : 0
+    );
+    setFilteredProducts(values);
+    console.log(values);
+    console.log("sortedbyrating");
+  }
+
+  function sortByPriceLowToHigh() {
+    const values = [...FilteredProducts].sort((p1, p2) =>
+      p1.price > p2.price ? 1 : p1.price < p2.price ? -1 : 0
+    );
+    setFilteredProducts(values);
+    console.log(values);
+    console.log("sortedbyprice");
+  }
+
+  function sortByRatingLowToHigh() {
+    const values = [...FilteredProducts].sort((r1, r2) =>
+      r1.rating.rate > r2.rating.rate
+        ? 1
+        : r1.rating.rate < r2.rating.rate
+        ? -1
+        : 0
+    );
+    setFilteredProducts(values);
+    console.log(values);
+    console.log("sortedbyrating");
+  }
+
+  function filterreset() {}
 
   // console.log(Products);
 
@@ -75,7 +126,17 @@ const Products = () => {
           </button>
         </div>
 
-        <div className="flex flex-row items-center justify-around  gap-3">
+        <div className="flex flex-row items-center justify-around  gap-3 w-[60%]">
+          <FilterSelect
+            filterName="Sort by Price"
+            filteroptions={optionsForSortByPrice}
+            filterfunctions={[sortByPriceHighToLow, sortByPriceLowToHigh]}
+          />
+          <FilterSelect
+            filterName="Sort by Rating"
+            filteroptions={optionsForSortByRating}
+            filterfunctions={[sortByRatingHighToLow, sortByRatingLowToHigh]}
+          />
           <button
             onClick={handleAbove4Start}
             className="px-[0.5em] py-[0.25rem] rounded-md bg-[#cfced0] hover:bg-[#a6a6a8] hover:text-[#ffffff] active:translate-y-1 font-thin"
