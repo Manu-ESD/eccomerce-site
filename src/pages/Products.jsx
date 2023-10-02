@@ -95,10 +95,8 @@ const Products = () => {
           <ShimmerSimpleGallery card imageHeight={300} caption />
         </>
       ) : (
-        <div className=" min-h-screen">
-          <hr className="w-[90%] mx-auto mt-[10px] mb-[30px]" />
-
-          <div className="Products flex flex-row flex-wrap gap-4 w-[90%] mx-auto">
+        <div className="min-h-screen">
+          <div className="Products flex flex-row flex-wrap gap-4">
             {FilteredProducts.map((item) => (
               <ProductCard
                 key={item.id}

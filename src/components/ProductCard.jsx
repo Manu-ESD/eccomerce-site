@@ -5,7 +5,6 @@ import { updateAddToCart } from "../features/cartSlice";
 const ProductCard = ({
   Imglink,
   Title,
-  Discription,
   Rating,
   Price,
   Product,
@@ -14,52 +13,43 @@ const ProductCard = ({
   const addToCart = useSelector((state) => state.addToCart.value);
   const dispatch = useDispatch();
 
-  function handleAddToCart() {
-    dispatch(updateAddToCart([...addToCart, Product]));
-  }
-
   function handleRemoveToCart(id) {
     dispatch(updateAddToCart(addToCart.filter((item) => item.id !== id)));
   }
 
   return (
-    <div>
-      <div className="card flex flex-col justify-around items-center max-h-[500px] w-[200px]">
+    <div className="card w-64 h-72 bg-base-100 shadow-xl rounded-none">
+      <div className="card-body">
+      <figure>
         <img
           src={Imglink}
-          className="card-img-top h-[200px] w-[200px] mb-2"
-          alt="..."
+          alt="product-img"
+          className="h-[130px]"
         />
-        <div className="card-body">
-          <h5 className="card-title font-bold h-12 text-[14px] flex items-center justify-center">
-            {Title}
-          </h5>
-          <p className="card-text text-left text-ellipsis max-w-full line-clamp-2 text-[12px]">
-            {Discription}
-          </p>
-          <div className="w-[100%] flex justify-between my-3">
-            <span className="card-text text-left font-medium text-[14px]">
-              Rating:{Rating}
-            </span>
-            <span className="card-text text-left font-medium text-[14px]">
-              Price:{Price}
-            </span>
-          </div>
+      </figure>
+        <h5 className="card-title font-bold h-12 text-[14px] flex items-center justify-center">
+          {Title}
+        </h5>
+        <div className="w-[100%] flex justify-between my-3">
+          <span className="card-text text-left font-medium text-[14px]">
+            Rating:{Rating}
+          </span>
+          <span className="card-text text-left font-medium text-[14px]">
+            Price:{Price}
+          </span>
+        </div>
 
-          {cardType === "add" ? (
-            <button className="btn bg-[#908e90]" onClick={handleAddToCart}>
-              Add to Cart
-            </button>
-          ) : (
+        <div className="card-actions justify-end">
+          {cardType === "remove" ? (
             <button
-              className="btn bg-[#908e90]"
+              className="btn btn-primary text-white"
               onClick={() => {
                 handleRemoveToCart(Product.id);
               }}
             >
               Remove From Cart
             </button>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
