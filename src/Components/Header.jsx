@@ -4,7 +4,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAddtoCart } from "../features/cartSlice";
+import { updateAddToCart } from "../features/cartSlice";
 
 const navigation = [
   { name: "Home", href: "/", current: true },

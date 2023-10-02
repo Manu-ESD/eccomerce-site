@@ -4,7 +4,7 @@ export const addToCartSlice = createSlice({
   name: "addToCart",
   initialState: { value: [] },
   reducers: {
-    updateAddtoCart: (state, action) => {
+    updateAddToCart: (state, action) => {
       state.value = action.payload;
     },
     removeFromCart: (state, action) => {
@@ -13,6 +13,6 @@ export const addToCartSlice = createSlice({
   },
 });
 
-export const { updateAddtoCart } = addToCartSlice.actions;
+export const { updateAddToCart } = addToCartSlice.actions;
 
 export const addToCartReducer = addToCartSlice.reducer;

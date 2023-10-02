@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAddtoCart } from "../features/cartSlice";
+import { updateAddToCart } from "../features/cartSlice";
 
-const ProductCARD = ({
+const ProductCard = ({
   Imglink,
   Title,
   Discription,
@@ -15,11 +15,11 @@ const ProductCARD = ({
   const dispatch = useDispatch();
 
   function handleAddToCart() {
-    dispatch(updateAddtoCart([...addToCart, Product]));
+    dispatch(updateAddToCart([...addToCart, Product]));
   }
 
   function handleRemoveToCart(id) {
-    dispatch(updateAddtoCart(addToCart.filter((item) => item.id !== id)));
+    dispatch(updateAddToCart(addToCart.filter((item) => item.id !== id)));
   }
 
   return (
@@ -66,4 +66,4 @@ const ProductCARD = ({
   );
 };
 
-export default ProductCARD;
+export default ProductCard;

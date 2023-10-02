@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import ProductCARD from "../Components/ProductCARD";
+import ProductCard from "../components/ProductCard";
 import { ShimmerSimpleGallery } from "react-shimmer-effects-18";
-import Layout from "../Components/Layout";
+import Layout from "../components/Layout";
 
 const Products = () => {
   const [Products, setProducts] = useState([]);
@@ -100,7 +100,7 @@ const Products = () => {
 
           <div className="Products flex flex-row flex-wrap gap-4 w-[90%] mx-auto">
             {FilteredProducts.map((item) => (
-              <ProductCARD
+              <ProductCard
                 key={item.id}
                 Imglink={item.image}
                 Title={item.title}
@@ -109,7 +109,7 @@ const Products = () => {
                 Price={item.price}
                 Product={item}
                 cardType="add"
-              ></ProductCARD>
+              ></ProductCard>
             ))}
           </div>
         </div>

@@ -5,7 +5,7 @@ import Offers from "./Pages/Offers";
 import About from "./Pages/About";
 import NoPage from "./Pages/NoPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Cart } from "./Components/Cart";
+import { Cart } from "./components/Cart";
 import { Provider } from "react-redux";
 import store from "./store";
 
