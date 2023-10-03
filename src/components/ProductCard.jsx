@@ -18,7 +18,7 @@ const ProductCard = ({
   }
 
   return (
-    <div className="card w-64 h-72 bg-base-100 shadow-xl rounded-none">
+    <div className="card w-64 h-72 shadow-lg bg-base-100 rounded-none">
       <div className="card-body">
       <figure>
         <img
