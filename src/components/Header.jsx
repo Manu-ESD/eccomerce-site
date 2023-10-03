@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAddToCart } from "../features/cartSlice";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -19,7 +18,6 @@ function classNames(...classes) {
 
 export default function Header() {
   const addToCart = useSelector((state) => state.addToCart.value);
-  const dispatch = useDispatch();
 
   return (
     <Disclosure as="nav" className="bg-gray-800">

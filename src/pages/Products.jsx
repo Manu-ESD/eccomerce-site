@@ -94,8 +94,6 @@ const Products = () => {
         : 0
     );
     setFilteredProducts(values);
-    console.log(values);
-    console.log("sortedbyrating");
   }
 
   function filterreset() {}
