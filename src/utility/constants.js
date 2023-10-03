@@ -1,0 +1,1 @@
+export const commonSortOptions = ["high to low", "low to high"];

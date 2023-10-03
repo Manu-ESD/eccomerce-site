@@ -2,20 +2,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 const FilterSelect = ({ filterName, filteroptions, filterfunctions }) => {
-  //TODO: ({filterName,options,filterFunction})
-  // TODO: [1] sort by pricing [2] sort by rating
-
   const [seletedValue, setSelectedValue] = useState("");
 
   const handleSelection = (event) => {
-    console.log(event.target.value);
     setSelectedValue(event.target.value);
   };
-
-  const filterReset = () => {
-    setSelectedValue("");
-  };
-
+// TODO: Code blunder discuss with Manohar
   useEffect(() => {
     if (seletedValue.length > 1) {
       const indexvalue = filteroptions.indexOf(seletedValue);
@@ -25,7 +17,7 @@ const FilterSelect = ({ filterName, filteroptions, filterfunctions }) => {
 
   return (
     <select
-      className="select select-bordered w-full max-w-xs"
+      className="select select-xs select-bordered mx-2 my-3"
       onChange={handleSelection}
       value={seletedValue}
     >
