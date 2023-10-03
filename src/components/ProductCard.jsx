@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
+import StarRatingsComponent from "../components/StarRatingsComponent";
 
 const ProductCard = ({
   Imglink,
@@ -28,13 +29,9 @@ const ProductCard = ({
         />
       </figure>
         <span className="card-title text-sm font-bold">{Title.substring(0,50)}...</span>
-        <div className="flex justify-between mt-3">
-          <span className="card-text text-left text-sm font-medium">
-            Rating:{Rating}
-          </span>
-          <span className="card-text text-left text-sm font-medium">
-            Price:$ {Price}
-          </span>
+        <div className="flex justify-center mt-3 items-center">
+            <StarRatingsComponent ratings={Rating}/>
+            <span className="flex text-sm font-bold ml-3">Price:${Price}</span>
         </div>
 
         <div className="card-actions">
