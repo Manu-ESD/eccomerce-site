@@ -33,7 +33,7 @@ const ProductCard = ({
             Rating:{Rating}
           </span>
           <span className="card-text text-left text-sm font-medium">
-            Price:{Price}
+            Price:$ {Price}
           </span>
         </div>
 
