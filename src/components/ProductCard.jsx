@@ -27,19 +27,17 @@ const ProductCard = ({
           className="h-[130px]"
         />
       </figure>
-        <h5 className="card-title font-bold h-12 text-[14px] flex items-center justify-center">
-          {Title}
-        </h5>
-        <div className="w-[100%] flex justify-between my-3">
-          <span className="card-text text-left font-medium text-[14px]">
+        <span className="card-title text-sm font-bold">{Title.substring(0,50)}...</span>
+        <div className="flex justify-between mt-3">
+          <span className="card-text text-left text-sm font-medium">
             Rating:{Rating}
           </span>
-          <span className="card-text text-left font-medium text-[14px]">
+          <span className="card-text text-left text-sm font-medium">
             Price:{Price}
           </span>
         </div>
 
-        <div className="card-actions justify-end">
+        <div className="card-actions">
           {cardType === "remove" ? (
             <button
               className="btn btn-primary text-white"
