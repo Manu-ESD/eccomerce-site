@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { ShimmerSimpleGallery } from "react-shimmer-effects-18";
 import Layout from "../components/Layout";
