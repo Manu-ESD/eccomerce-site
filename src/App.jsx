@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
 import Home from "./Pages/Home";
 import Products from "./Pages/Products";
 import Offers from "./Pages/Offers";
@@ -11,8 +10,6 @@ import store from "./store";
 
 function App() {
   return (
-    // <Store.Provider value={[addToCart, setaddToCart]}>
-
     <Provider store={store}>
       <div className="App">
         <BrowserRouter>
@@ -28,7 +25,6 @@ function App() {
         </BrowserRouter>
       </div>
     </Provider>
-    // </Store.Provider>
   );
 }
 
