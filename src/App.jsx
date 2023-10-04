@@ -1,8 +1,8 @@
-import Home from "./Pages/Home";
-import Products from "./Pages/Products";
-import Offers from "./Pages/Offers";
-import About from "./Pages/About";
-import NoPage from "./Pages/NoPage";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Offers from "./pages/Offers";
+import About from "./pages/About";
+import NoPage from "./pages/NoPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Cart } from "./components/Cart";
 import { Provider } from "react-redux";
