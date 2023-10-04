@@ -6,6 +6,7 @@ import NoPage from "./Pages/NoPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Cart } from "./components/Cart";
 import { Provider } from "react-redux";
+import ProductPage from "./pages/ProductPage";
 import store from "./store";
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/products" element={<Products />} />
+            <Route path="/products" element={<Products />}/>
+            <Route path="/products/view" element={<ProductPage />} />
             <Route path="/offers" element={<Offers />} />
             <Route path="/about" element={<About />} />
             <Route path="/cart" element={<Cart />} />

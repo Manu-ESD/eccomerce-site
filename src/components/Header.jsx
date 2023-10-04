@@ -1,9 +1,8 @@
-import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -48,7 +47,7 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <Link to={`/${item.name.toLowerCase()}`}>
+                      <Link to={item.href} key={item.name}>
                         <button
                           key={item.name}
                           className={classNames(
