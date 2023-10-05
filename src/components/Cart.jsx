@@ -12,12 +12,12 @@ export const Cart = () => {
         {addToCart.map((item) => (
           <ProductCard
             key={item.id}
-            Imglink={item.image}
-            Title={item.title}
-            Discription={item.description}
-            Rating={item.rating.rate}
-            Price={item.price}
-            Product={item}
+            imgLink={item.image}
+            title={item.title}
+            description={item.description}
+            rating={item.rating.rate}
+            price={item.price}
+            product={item}
             cardType="remove"
           ></ProductCard>
         ))}

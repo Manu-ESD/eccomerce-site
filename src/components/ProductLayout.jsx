@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
 
 const ProductLayout = () => {
-    // TODO: Individual product page layout
-    // Name,desption, etc all detail will be here
+  // TODO: Individual product page layout
+  // Name,description, etc all detail will be here
   const dispatch = useDispatch();
 
   function handleAddToCart() {

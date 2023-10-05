@@ -1,30 +1,26 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-const FilterSelect = ({ filterName, filteroptions, filterfunctions }) => {
-  const [seletedValue, setSelectedValue] = useState("");
+const FilterSelect = ({ filterName, filterOptions, filterFunction }) => {
+  const [selectedValue, setSelectedValue] = useState("none");
 
   const handleSelection = (event) => {
     setSelectedValue(event.target.value);
   };
-// TODO: Code blunder discuss with Manohar
   useEffect(() => {
-    if (seletedValue.length > 1) {
-      const indexvalue = filteroptions.indexOf(seletedValue);
-      filterfunctions[indexvalue]();
-    }
-  }, [seletedValue]);
+    filterFunction(selectedValue);
+  }, [selectedValue]);
 
   return (
     <select
       className="select select-xs select-bordered mx-2 my-3"
       onChange={handleSelection}
-      value={seletedValue}
+      value={selectedValue}
     >
-      <option disabled selected value={""}>
+      <option disabled selected value={"none"}>
         {filterName}
       </option>
-      {filteroptions.map((item) => {
+      {filterOptions.map((item) => {
         return (
           <option onSelect={handleSelection} value={item}>
             {item}

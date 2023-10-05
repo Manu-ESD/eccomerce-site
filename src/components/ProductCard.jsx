@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // TODO: @manohar fix this variable naming styles and errors
 
-const ProductCard = ({ Imglink, Title, Rating, Price, Product, cardType }) => {
+const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
   const addToCart = useSelector((state) => state.addToCart.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,14 +22,14 @@ const ProductCard = ({ Imglink, Title, Rating, Price, Product, cardType }) => {
       >
         <div className="card-body">
           <figure>
-            <img src={Imglink} alt="product-img" className="h-[130px]" />
+            <img src={imgLink} alt="product-img" className="h-[130px]" />
           </figure>
           <span className="card-title text-sm font-bold">
-            {Title.substring(0, 50)}...
+            {title.substring(0, 50)}...
           </span>
           <div className="flex justify-center mt-3 items-center">
-            <StarRatingsComponent ratings={Rating} />
-            <span className="flex text-sm font-bold ml-3">Price:${Price}</span>
+            <StarRatingsComponent ratings={rating} />
+            <span className="flex text-sm font-bold ml-3">Price:${price}</span>
           </div>
 
           <div className="card-actions">
@@ -37,7 +37,7 @@ const ProductCard = ({ Imglink, Title, Rating, Price, Product, cardType }) => {
               <button
                 className="btn btn-primary text-white"
                 onClick={() => {
-                  handleRemoveToCart(Product.id);
+                  handleRemoveToCart(product.id);
                 }}
               >
                 Remove From Cart
