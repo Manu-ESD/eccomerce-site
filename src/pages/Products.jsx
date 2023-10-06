@@ -5,8 +5,9 @@ import Layout from "../components/Layout";
 import FilterSelect from "../components/FilterSelect";
 import { commonSortOptions } from "../utility/constants";
 import { getProducts } from "../utility/utils";
+
 import { db } from "../service";
-import { ref,child,get,onValue } from "firebase/database";
+import { ref, child, get, onValue } from "firebase/database";
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
@@ -23,18 +24,20 @@ const Products = () => {
     // });
 
     // TODO: Testing code not final code, have to refactor
-// TODO : manohar check code fom here, need to fetch data from firebase db
+    // TODO : manohar check code fom here, need to fetch data from firebase db
 
-    const dbRef = ref(db, 'products');
-  // onValue(dbRef, (snapshot) => {
-  // const data = snapshot.val();
-  // console.log(data,"data");
+    const dbRef = ref(db, "products");
+    // onValue(dbRef, (snapshot) => {
+    // const data = snapshot.val();
+    // console.log(data,"data");
 
-  get(dbRef).then((snapshot) => {
-    console.log(snapshot.val());
-  }).catch((error) => {
-    console.error(error);
-  });
+    get(dbRef)
+      .then((snapshot) => {
+        console.log(snapshot.val());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     getProducts()
       .then((data) => {

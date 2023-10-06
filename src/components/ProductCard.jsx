@@ -3,7 +3,7 @@ import { updateAddToCart } from "../features/cartSlice";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { useNavigate } from "react-router-dom";
 
-// TODO: @manohar fix this variable naming styles and errors
+import { updateProductViewId } from "../features/productViewSlice";
 
 const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
   const addToCart = useSelector((state) => state.addToCart.value);
@@ -14,11 +14,21 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
     dispatch(updateAddToCart(addToCart.filter((item) => item.id !== id)));
   }
 
+  function handleProductViewId(id) {
+    dispatch(updateProductViewId(id));
+  }
+
+  const handleProductView = (id) => {
+    console.log("product clicked id:", id);
+    handleProductViewId(id);
+    navigate("/products/view");
+  };
+
   return (
     <>
       <div
         className="card w-64 h-72 shadow-lg bg-base-100 rounded-none cursor-pointer"
-        onClick={() => navigate("/products/view")}
+        onClick={() => handleProductView(product.id)}
       >
         <div className="card-body">
           <figure>
