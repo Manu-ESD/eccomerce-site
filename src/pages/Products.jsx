@@ -4,7 +4,7 @@ import { ShimmerSimpleGallery } from "react-shimmer-effects-18";
 import Layout from "../components/Layout";
 import FilterSelect from "../components/FilterSelect";
 import { commonSortOptions } from "../utility/constants";
-import { getProducts, getDataFromFirebase } from "../utility/utils";
+import { getDataFromFirebase } from "../utility/utils";
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
@@ -15,7 +15,6 @@ const Products = () => {
       .then((data) => {
         setProductsData(data);
         setFilteredProducts(data);
-        console.log(data);
       })
       .catch((err) => {
         console.error(err);

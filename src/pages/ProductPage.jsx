@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useSelector } from "react-redux";
-import { getProductByID } from "../utility/utils";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 
@@ -9,16 +7,6 @@ import StarRatingsComponent from "../components/StarRatingsComponent";
 
 const ProductPage = () => {
   const productData = useSelector((state) => state.productViewId.value);
-  console.log("asdfgh", productData);
-  // useEffect(() => {
-  //   getProductByID(productViewId)
-  //     .then((data) => {
-  //       setproductData(data);
-  //     })
-  //     .catch((err) => {
-  //       console.err(err);
-  //     });
-  // }, []);
 
   return (
     <Layout>

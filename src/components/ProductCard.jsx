@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { useNavigate } from "react-router-dom";
-
 import { updateProductViewId } from "../features/productViewSlice";
 
 const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
