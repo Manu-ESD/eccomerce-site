@@ -13,6 +13,7 @@ const ProductLayout = () => {
   return (
     <>
       <div>ProductLayout</div>
+
       {/* <div className="card-actions justify-end">
       {cardType === "add" ? (
         <div className="flex justify-between">
