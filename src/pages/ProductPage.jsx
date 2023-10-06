@@ -40,9 +40,12 @@ const ProductPage = () => {
               src={productData.image}
               alt="Product image"
             ></img>
-            <div className="mt-6 text-center">
+            <div className="mt-6 flex flex-row justify-center items-center gap-3">
               <button className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105">
                 ADD TO CART
+              </button>
+              <button className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105">
+                BUY NOW
               </button>
             </div>
           </div>
