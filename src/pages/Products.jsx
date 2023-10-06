@@ -8,7 +8,6 @@ import { getProducts } from "../utility/utils";
 import { db } from "../service";
 import { ref,child,get,onValue } from "firebase/database";
 
-
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -46,45 +45,45 @@ const Products = () => {
         console.err(err);
       });
   }, []);
-  // TODO: explain about code blunder to @manohar
-  function sortByPriceHighToLow() {
-    const values = [...filteredProducts].sort((p1, p2) =>
-      p1.price < p2.price ? 1 : p1.price > p2.price ? -1 : 0
-    );
-    setFilteredProducts(values);
+
+  function sortByPrice(sortmethod) {
+    if (sortmethod === commonSortOptions[0]) {
+      const values = [...filteredProducts].sort((p1, p2) =>
+        p1.price < p2.price ? 1 : p1.price > p2.price ? -1 : 0
+      );
+      setFilteredProducts(values);
+    } else if (sortmethod === commonSortOptions[1]) {
+      const values = [...filteredProducts].sort((p1, p2) =>
+        p1.price > p2.price ? 1 : p1.price < p2.price ? -1 : 0
+      );
+      setFilteredProducts(values);
+    } else {
+      console.log("sortByPrice Method Not Found");
+    }
   }
 
-  // TODO: explain about code blunder to @manohar
-  function sortByRatingHighToLow() {
-    const values = [...filteredProducts].sort((r1, r2) =>
-      r1.rating.rate < r2.rating.rate
-        ? 1
-        : r1.rating.rate > r2.rating.rate
-        ? -1
-        : 0
-    );
-    setFilteredProducts(values);
-  }
-
-  // TODO: explain about code blunder to @manohar
-
-  function sortByPriceLowToHigh() {
-    const values = [...filteredProducts].sort((p1, p2) =>
-      p1.price > p2.price ? 1 : p1.price < p2.price ? -1 : 0
-    );
-    setFilteredProducts(values);
-  }
-  // TODO: explain about code blunder to @manohar
-
-  function sortByRatingLowToHigh() {
-    const values = [...filteredProducts].sort((r1, r2) =>
-      r1.rating.rate > r2.rating.rate
-        ? 1
-        : r1.rating.rate < r2.rating.rate
-        ? -1
-        : 0
-    );
-    setFilteredProducts(values);
+  function sortByRating(sortmethod) {
+    if (sortmethod === commonSortOptions[0]) {
+      const values = [...filteredProducts].sort((r1, r2) =>
+        r1.rating.rate < r2.rating.rate
+          ? 1
+          : r1.rating.rate > r2.rating.rate
+          ? -1
+          : 0
+      );
+      setFilteredProducts(values);
+    } else if (sortmethod === commonSortOptions[1]) {
+      const values = [...filteredProducts].sort((r1, r2) =>
+        r1.rating.rate > r2.rating.rate
+          ? 1
+          : r1.rating.rate < r2.rating.rate
+          ? -1
+          : 0
+      );
+      setFilteredProducts(values);
+    } else {
+      console.log("sortByPrice Method Not Found");
+    }
   }
 
   return (
@@ -98,13 +97,13 @@ const Products = () => {
           <div className="flex flex-row-reverse">
             <FilterSelect
               filterName="Sort by Price"
-              filteroptions={commonSortOptions}
-              filterfunctions={[sortByPriceHighToLow, sortByPriceLowToHigh]}
+              filterOptions={commonSortOptions}
+              filterFunction={sortByPrice}
             />
             <FilterSelect
               filterName="Sort by Rating"
-              filteroptions={commonSortOptions}
-              filterfunctions={[sortByRatingHighToLow, sortByRatingLowToHigh]}
+              filterOptions={commonSortOptions}
+              filterFunction={sortByRating}
             />
           </div>
 
@@ -113,12 +112,12 @@ const Products = () => {
               {filteredProducts.map((item) => (
                 <ProductCard
                   key={item.id}
-                  Imglink={item.image}
-                  Title={item.title}
-                  Discription={item.description}
-                  Rating={item.rating.rate}
-                  Price={item.price}
-                  Product={item}
+                  imgLink={item.image}
+                  title={item.title}
+                  description={item.description}
+                  rating={item.rating.rate}
+                  price={item.price}
+                  product={item}
                   cardType="add"
                 ></ProductCard>
               ))}
