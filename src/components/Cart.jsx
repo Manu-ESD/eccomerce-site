@@ -8,7 +8,7 @@ export const Cart = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen flex flex-row flex-wrap gap-4 my-4 w-[90%] mx-auto">
+      <div className="min-h-screen flex flex-row flex-wrap gap-4 my-4 w-[100vw] px-5 mx-auto">
         {addToCart.map((item) => (
           <ProductCard
             key={item.id}
