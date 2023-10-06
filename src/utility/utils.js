@@ -1,6 +1,6 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../service";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, getDocs,doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithRedirect } from "firebase/auth";
+import { db,auth } from "../service";
 import { v4 as uuidv4 } from 'uuid';
 
 export const getDataFromFirebase = async(collectionName) => {
@@ -51,3 +51,29 @@ export const getFiltersParams = (productsData)=>{
   }
   
 }
+
+export const signUpHandler = (email, password) => {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+export const signInHandler = (email, password) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+//TODO: Pending google oauth code for signInHandler
+// const provider = new GoogleAuthProvider();
+// signInWithRedirect(auth, provider);
