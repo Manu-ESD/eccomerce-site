@@ -4,41 +4,21 @@ import { ShimmerSimpleGallery } from "react-shimmer-effects-18";
 import Layout from "../components/Layout";
 import FilterSelect from "../components/FilterSelect";
 import { commonSortOptions } from "../utility/constants";
-import { getProducts } from "../utility/utils";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../service";
-import { doc, setDoc } from "firebase/firestore";
+import { getProducts,getDataFromFirebase } from "../utility/utils";
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const getAllDocumentsInCollection = async () => {
-    const querySnapshot = await getDocs(collection(db, "products"));
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      console.log("Data from DB");
-    });
-    await setDoc(doc(db, "products", "1"), {
-      brand: "Los Angeles",
-      category: "CA",
-      description: "USA",
-    });
-  };
 
   useEffect(() => {
-    // TODO: Testing code not final code, have to refactor
-    // TODO : manohar check code fom here, need to fetch data from firebase db
-    getAllDocumentsInCollection();
-
-    getProducts()
+    getDataFromFirebase('products')
       .then((data) => {
         setProductsData(data);
         setFilteredProducts(data);
       })
       .catch((err) => {
-        console.err(err);
+        console.error(err);
       });
   }, []);
 

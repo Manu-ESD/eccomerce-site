@@ -21,8 +21,6 @@ const ProductPage = () => {
       });
   }, []);
 
-  console.log(productData);
-
   return (
     <Layout>
       {Object.keys(productData).length === 0 ? (
