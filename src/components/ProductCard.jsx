@@ -14,13 +14,13 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
     dispatch(updateAddToCart(addToCart.filter((item) => item.id !== id)));
   }
 
-  function handleProductViewId(id) {
-    dispatch(updateProductViewId(id));
+  function handleProductViewId(product) {
+    dispatch(updateProductViewId(product));
   }
 
-  const handleProductView = (id) => {
-    console.log("product clicked id:", id);
-    handleProductViewId(id);
+  const handleProductView = (product) => {
+    console.log("product clicked id:", product);
+    handleProductViewId(product);
     navigate("/products/view");
   };
 
@@ -28,7 +28,7 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
     <>
       <div
         className="card w-64 h-72 shadow-lg bg-base-100 rounded-none cursor-pointer"
-        onClick={() => handleProductView(product.id)}
+        onClick={() => handleProductView(product)}
       >
         <div className="card-body">
           <figure>

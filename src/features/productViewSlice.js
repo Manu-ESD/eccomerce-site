@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const productViewSlice = createSlice({
   name: "productViewId",
-  initialState: { value: 0 },
+  initialState: { value: {} },
   reducers: {
     updateProductViewId: (state, action) => {
       state.value = action.payload;

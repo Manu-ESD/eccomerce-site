@@ -8,18 +8,17 @@ import StarRatingsComponent from "../components/StarRatingsComponent";
 // TODO: @manohar On clicking the product card store its data in redux which will be used for populating here
 
 const ProductPage = () => {
-  const productViewId = useSelector((state) => state.productViewId.value);
-  const [productData, setproductData] = useState({});
-
-  useEffect(() => {
-    getProductByID(productViewId)
-      .then((data) => {
-        setproductData(data);
-      })
-      .catch((err) => {
-        console.err(err);
-      });
-  }, []);
+  const productData = useSelector((state) => state.productViewId.value);
+  console.log("asdfgh", productData);
+  // useEffect(() => {
+  //   getProductByID(productViewId)
+  //     .then((data) => {
+  //       setproductData(data);
+  //     })
+  //     .catch((err) => {
+  //       console.err(err);
+  //     });
+  // }, []);
 
   return (
     <Layout>
