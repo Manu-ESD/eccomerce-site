@@ -3,6 +3,8 @@ import Products from "./pages/Products";
 import Offers from "./pages/Offers";
 import About from "./pages/About";
 import NoPage from "./pages/NoPage";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Cart } from "./components/Cart";
 import { Provider } from "react-redux";
@@ -16,6 +18,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />}/>
             <Route path="/products/view" element={<ProductPage />} />
