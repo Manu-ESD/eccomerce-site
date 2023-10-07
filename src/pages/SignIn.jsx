@@ -28,7 +28,7 @@ const SignIn = () => {
             <label htmlFor="comments" className="ml-2 text-sm font-normal text-gray-600">Remember me</label>
         </div>
         <div>
-            <a className="text-sm text-blue-600 hover:underline" href="#">Forgot password?</a>
+            <Link to="/password-reset" className="text-sm text-blue-600 hover:underline">Forgot password?</Link>
         </div>
     </div>
 </div>

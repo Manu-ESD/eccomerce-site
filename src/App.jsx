@@ -10,6 +10,7 @@ import { Cart } from "./components/Cart";
 import { Provider } from "react-redux";
 import ProductPage from "./pages/ProductPage";
 import store from "./store";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/password-reset" element={<ForgotPassword />} />
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />}/>
             <Route path="/products/view" element={<ProductPage />} />

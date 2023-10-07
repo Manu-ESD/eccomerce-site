@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
@@ -8,15 +9,24 @@ import { updateAddToCart } from "../features/cartSlice";
 
 const ProductPage = () => {
   const productData = useSelector((state) => state.productViewId.value);
-  // useEffect(() => {
-  //   getProductByID(productViewId)
-  //     .then((data) => {
-  //       setproductData(data);
-  //     })
-  //     .catch((err) => {
-  //       console.err(err);
-  //     });
-  // }, []);
+  const addToCart = useSelector((state) => state.addToCart.value);
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    const uniqueProducts = [];
+    addToCart.forEach((products) => {
+      uniqueProducts.push(products.id);
+    });
+    if (!uniqueProducts.includes(productData.id)) {
+      const productInCart = { ...productData, orderQty: 1 };
+      dispatch(updateAddToCart([...addToCart, productInCart]));
+      console.log("addtocart", productInCart);
+    } else {
+      // TODO: popup already added
+      console.log("already exists");
+    }
+  };
 
   return (
     <Layout>
