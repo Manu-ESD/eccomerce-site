@@ -4,31 +4,39 @@ import { useNavigate } from "react-router-dom";
 import { signInHandler } from "../utility/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../features/authSlice";
+import { browserSessionPersistence, setPersistence } from "firebase/auth";
+import { auth } from "../service";
 
 
 const SignIn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const authData = useSelector((state) => state.authData);
-    const [formData,setFormData] = useState({email:"",password:""});
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const signInClickHandler = () => {
+    const signInClickHandler = async () => {
         setLoading(true);
-        if (!authData.isLoggedIn) {
-          signInHandler(formData)
-            .then((res) => {
-              const {displayName,email,phoneNumber,photoURL} = res.user;
-              setLoading(false);
-              dispatch(signIn({ displayName,email,phoneNumber,photoURL}));
-              navigate("/");
-            })
-            .catch((err) => {
-              console.error(err);
-              setLoading(false);
-            })
+        try {
+          if (!authData.isLoggedIn) {
+            const res = await signInHandler({ email, password });
+            const { user } = res;
+            setLoading(false);
+            dispatch(signIn({ displayName:user.displayName, email:user.email, phoneNumber:user.phoneNumber, photoURL:user.photoURL }));
+            // TODO: Fix remember me logic
+            if (rememberMe) {
+                setPersistence(auth, browserSessionPersistence);
+            }
+            navigate("/");
+          }
+        } catch (err) {
+          console.error(err);
+          setLoading(false);
         }
       };
+      
   return (
     <>
       <section className="flex justify-center items-center h-screen bg-gray-100">
@@ -59,12 +67,7 @@ const SignIn = () => {
                 className="w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
                 type="email"
                 placeholder="Email"
-                onChange={(e) => {
-                  setFormData(({ password }) => ({
-                    email: e.target.value,
-                    password,
-                  }));
-                }}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
@@ -72,12 +75,7 @@ const SignIn = () => {
                 className="w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
                 type="password"
                 placeholder="Password"
-                onChange={(e) => {
-                    setFormData(({ email }) => ({
-                      email,
-                      password:e.target.value
-                    }))
-                }}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div>
@@ -93,6 +91,7 @@ const SignIn = () => {
                 <input
                   type="checkbox"
                   className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+                  onChange={() => setRememberMe(!rememberMe)}
                 />
                 <label
                   htmlFor="comments"

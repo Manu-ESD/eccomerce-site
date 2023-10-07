@@ -7,21 +7,19 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Cart } from "./components/Cart";
-import { Provider } from "react-redux";
 import ProductPage from "./pages/ProductPage";
-import store from "./store";
 import ForgotPassword from "./pages/ForgotPassword";
 import { useSelector } from "react-redux";
 
 function App() {
-  const { isLoggedIn } = useSelector((state) => state.authData);
+  const authData = useSelector((state) => state.authData);
+  
   return (
-    <Provider store={store}>
       <div className="App">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            {!isLoggedIn && (
+            {!authData.isLoggedIn && (
               <>
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
@@ -38,7 +36,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
-    </Provider>
   );
 }
 
