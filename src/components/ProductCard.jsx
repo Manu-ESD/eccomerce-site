@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { useNavigate } from "react-router-dom";
-import { FaRegCircleXmark } from "react-icons/fa6";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 import { updateProductViewId } from "../features/productViewSlice";

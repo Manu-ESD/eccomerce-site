@@ -8,7 +8,6 @@ import { updateAddToCart } from "../features/cartSlice";
 
 const ProductPage = () => {
   const productData = useSelector((state) => state.productViewId.value);
-  console.log("asdfgh", productData);
   // useEffect(() => {
   //   getProductByID(productViewId)
   //     .then((data) => {
