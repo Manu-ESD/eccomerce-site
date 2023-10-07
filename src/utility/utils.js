@@ -1,7 +1,9 @@
 import { collection, getDocs,doc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword,GoogleAuthProvider,signInWithRedirect } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut } from "firebase/auth";
 import { db,auth } from "../service";
 import { v4 as uuidv4 } from 'uuid';
+import store from "../store";
+import { signOff } from "../features/authSlice";
 
 export const getDataFromFirebase = async(collectionName) => {
   try{
@@ -67,17 +69,9 @@ export const signUpHandler = (email, password) => {
     });
 };
 
-export const signInHandler = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+export const signInHandler = ({email, password}) => signInWithEmailAndPassword(auth, email, password);
+export const signUpWithFirebase = ({ email, password }) => createUserWithEmailAndPassword(auth, email, password);
+export const signOutWithFirebase = () => {
+  signOut(auth)
+  store.dispatch(signOff())
 };
-
-//TODO: Pending google oauth code for signInHandler
-// const provider = new GoogleAuthProvider();
-// signInWithRedirect(auth, provider);

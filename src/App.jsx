@@ -11,19 +11,25 @@ import { Provider } from "react-redux";
 import ProductPage from "./pages/ProductPage";
 import store from "./store";
 import ForgotPassword from "./pages/ForgotPassword";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { isLoggedIn } = useSelector((state) => state.authData);
   return (
     <Provider store={store}>
       <div className="App">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/password-reset" element={<ForgotPassword />} />
+            {!isLoggedIn && (
+              <>
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/password-reset" element={<ForgotPassword />} />
+              </>
+            )}
             <Route path="/home" element={<Home />} />
-            <Route path="/products" element={<Products />}/>
+            <Route path="/products" element={<Products />} />
             <Route path="/products/view" element={<ProductPage />} />
             <Route path="/offers" element={<Offers />} />
             <Route path="/about" element={<About />} />

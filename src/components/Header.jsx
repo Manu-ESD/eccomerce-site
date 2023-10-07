@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { signOutWithFirebase } from "../utility/utils";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -16,6 +17,7 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const authData = useSelector((state) => state.authData);
   const addToCart = useSelector((state) => state.addToCart.value);
 
   return (
@@ -99,7 +101,12 @@ export default function Header() {
                   </button>
                 </Link>
 
-                <Link  to={`/signin`} className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"><UserIcon className="h-6 w-6 me-1"/><span>Sign In</span></Link>
+                {
+                  authData.isLoggedIn ?
+                  <Link to="/" onClick={signOutWithFirebase} className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"><UserIcon className="h-6 w-6 me-1"/><span>Sign Out</span></Link>
+                  :
+                  <Link to="/signin" className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"><UserIcon className="h-6 w-6 me-1"/><span>Sign In</span></Link>
+                }
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
