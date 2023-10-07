@@ -1,12 +1,23 @@
 import Layout from "../components/Layout";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
 import StarRatingsComponent from "../components/StarRatingsComponent";
+import { updateAddToCart } from "../features/cartSlice";
 
 // TODO: @manohar On clicking the product card store its data in redux which will be used for populating here
 
 const ProductPage = () => {
   const productData = useSelector((state) => state.productViewId.value);
+  console.log("asdfgh", productData);
+  // useEffect(() => {
+  //   getProductByID(productViewId)
+  //     .then((data) => {
+  //       setproductData(data);
+  //     })
+  //     .catch((err) => {
+  //       console.err(err);
+  //     });
+  // }, []);
 
   return (
     <Layout>
@@ -29,7 +40,12 @@ const ProductPage = () => {
               alt="Product image"
             ></img>
             <div className="mt-6 flex flex-row justify-center items-center gap-3">
-              <button className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105">
+              <button
+                className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105"
+                onClick={() => {
+                  handleAddToCart();
+                }}
+              >
                 ADD TO CART
               </button>
               <button className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105">
