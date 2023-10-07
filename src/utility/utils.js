@@ -35,6 +35,7 @@ export const getFiltersParams = (productsData)=>{
   const stock=[];
   const discount=[];
   const category=[];
+  
   productsData.forEach((product)=>{
     brands.push(product.brand);
     price.push(product.price);
