@@ -34,12 +34,14 @@ export const getFiltersParams = (productsData)=>{
   const ratings=[];
   const stock=[];
   const discount=[];
+  const category=[];
   productsData.forEach((product)=>{
     brands.push(product.brand);
     price.push(product.price);
     ratings.push(product.rating.rate);
     stock.push(product.stock);
     discount.push(product.discountPercentage);
+    category.push(product.category);
   })
 
   return {
@@ -47,7 +49,8 @@ export const getFiltersParams = (productsData)=>{
     price:[...new Set(price)],
     ratings:[...new Set(ratings)],
     stock:[...new Set(stock)],
-    discount:[...new Set(discount)]
+    discount:[...new Set(discount)],
+    category:[...new Set(category)]
   }
   
 }
