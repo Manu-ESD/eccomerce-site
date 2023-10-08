@@ -5,10 +5,24 @@ import Layout from "../components/Layout";
 import FilterSelect from "../components/FilterSelect";
 import { commonSortOptions } from "../utility/constants";
 import { getProducts, getDataFromFirebase } from "../utility/utils";
+import { useSelector } from "react-redux";
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const searchValue = useSelector((state) => state.searchValue);
+
+  console.log(searchValue);
+
+  useEffect(() => {
+    console.log("search value is updating in products page", searchValue);
+    setFilteredProducts(
+      productsData.filter((item) => {
+        return item.title.toLowerCase().includes(searchValue.toLowerCase());
+      })
+    );
+  }, [searchValue]);
 
   useEffect(() => {
     getDataFromFirebase("products")

@@ -5,6 +5,7 @@ import FiltersContainer from "./FiltersContainer";
 
 const Layout = ({ children }) => {
   const activePath = window.location.pathname;
+
   return (
     <>
       <Header />
