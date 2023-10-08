@@ -5,6 +5,7 @@ import {
   signOut,
   sendPasswordResetEmail,
   confirmPasswordReset,
+  deleteUser
 } from "firebase/auth";
 import { db, auth } from "../service";
 import { v4 as uuidv4 } from "uuid";
@@ -88,3 +89,22 @@ export const confirmThePasswordReset = async (oobCode, newPassword) => {
   if (!oobCode && !newPassword) return;
   return await confirmPasswordReset(auth, oobCode, newPassword);
 };
+
+export const deleteUserFromFirebase = () => {
+  const user = auth.currentUser;
+  deleteUser(user)
+    .then((res) => {
+      if (!res) {
+        throw new Error(
+          "Unable to delete your account. Please try after sometime !!"
+        );
+      }
+      signOutWithFirebase();
+      console.log("Account deleted successfully");
+    })
+    .catch((error) => {
+      console.err(error);
+    });
+};
+
+
