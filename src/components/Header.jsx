@@ -1,10 +1,12 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOutWithFirebase } from "../utility/utils";
-
+import { BiSearch } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { updateSearchValue } from "../features/searchValueSlice";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Products", href: "/products", current: false },
@@ -17,8 +19,16 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const [searchValue, setSearchValue] = useState("");
   const authData = useSelector((state) => state.authData);
   const addToCart = useSelector((state) => state.addToCart.value);
+
+  const dispatch = useDispatch();
+
+  const handleSearch = () => {
+    dispatch(updateSearchValue(searchValue));
+    console.log("search clicked", searchValue);
+  };
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -38,7 +48,8 @@ export default function Header() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+
+              <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-10 w-auto mix-blend-screen"
@@ -67,6 +78,24 @@ export default function Header() {
                   </div>
                 </div>
               </div>
+
+              <div className="flex flex-row items-center bg-orange-500">
+                <input
+                  className="w-[300px] p-1"
+                  type="text"
+                  placeholder="Search Product here"
+                  name="inputSearchValue"
+                  value={searchValue}
+                  onChange={(e) => {
+                    setSearchValue(e.target.value);
+                  }}
+                ></input>
+                <BiSearch
+                  className="w-[30px] text-black hover:text-white"
+                  onClick={handleSearch}
+                ></BiSearch>
+              </div>
+
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
