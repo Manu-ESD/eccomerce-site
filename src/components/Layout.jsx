@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
       <Header />
       <div className="flex bg-gray-50">
         {activePath === "/products" && <FiltersContainer />}
-        <div>{children}</div>
+        <div className="mx-auto">{children}</div>
       </div>
       <Footer />
     </>
