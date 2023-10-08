@@ -1,11 +1,11 @@
-import React from "react";
 import Layout from "../components/Layout";
+import HomepageCarousel from "../components/HomepageCarousel";
 
 const Home = () => {
   return (
     <Layout>
       <div className=" min-h-screen">
-        <p>Home</p>
+        <HomepageCarousel/>
       </div>
     </Layout>
   );
