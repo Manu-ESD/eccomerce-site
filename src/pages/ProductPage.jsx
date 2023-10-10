@@ -10,6 +10,7 @@ import { updateAddToCart } from "../features/cartSlice";
 const ProductPage = () => {
   const productData = useSelector((state) => state.productViewId.value);
   const addToCart = useSelector((state) => state.addToCart.value);
+  const [showAlert, setshowAlert] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -25,6 +26,10 @@ const ProductPage = () => {
     } else {
       // TODO: popup already added
       console.log("already exists");
+      setshowAlert(true);
+      setTimeout(() => {
+        setshowAlert(false);
+      }, 1500);
     }
   };
 
@@ -74,6 +79,27 @@ const ProductPage = () => {
             <h3 className="text-[1.4rem] font-bold">₹{productData.price}</h3>
             <StarRatingsComponent ratings={productData.rating.rate} />
           </div>
+
+          {/* //Alert  */}
+          {showAlert ? (
+            <div className="alert absolute w-[30%] border-2 border-black top-[50px]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="stroke-info shrink-0 w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+
+              <span>Item already Added !</span>
+            </div>
+          ) : null}
         </div>
       )}
     </Layout>
