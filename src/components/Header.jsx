@@ -62,10 +62,12 @@ export default function Header() {
   };
 
   const handleCategorieSeletion = (category) => {
+    navigate("/products");
     console.log("category:", category);
     // setSelectedCategory(category);
-    dispatch(updateselectedCategories(category));
-    navigate("/products");
+    setTimeout(() => {
+      dispatch(updateselectedCategories(category));
+    }, 500);
   };
 
   return (
@@ -115,23 +117,34 @@ export default function Header() {
                             </button>
                           </Link>
                         ) : (
-                          <select
-                            className="select select-bordered select-xs w-full max-w-xs translate-y-2 text-black"
-                            value={selectedCategories}
-                            onChange={(e) => {
-                              handleCategorieSeletion(e.target.value);
-                            }}
-                          >
-                            <option disabled selected value={""}>
-                              select product
-                            </option>
-                            <option value={"all"}>All Products</option>
-                            {categories.map((item) => (
-                              <option key={item} value={item}>
-                                {item}
-                              </option>
-                            ))}
-                          </select>
+                          <div className="dropdown dropdown-bottom flex justify-center items-center">
+                            <label
+                              tabIndex={0}
+                              className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                            >
+                              Products
+                            </label>
+                            <ul
+                              tabIndex={0}
+                              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                            >
+                              <li
+                                value={"all"}
+                                onClick={() => handleCategorieSeletion("all")}
+                              >
+                                <a>All Items</a>
+                              </li>
+                              {categories.map((item) => (
+                                <li
+                                  value={item}
+                                  key={item}
+                                  onClick={() => handleCategorieSeletion(item)}
+                                >
+                                  <a>{item}</a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         )}
                       </>
                     ))}
