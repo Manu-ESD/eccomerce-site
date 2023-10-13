@@ -8,7 +8,6 @@ import { productsDataReducer } from "./features/productsSlice";
 import sessionStorage from "redux-persist/es/storage/session";
 import { persistReducer } from "redux-persist";
 
-
 const rootReducer = combineReducers({
   addToCart: addToCartReducer,
   productViewId: productViewReducer,
@@ -22,7 +21,10 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage: sessionStorage,
-  blacklist: []
+  blacklist: [
+    "searchValue",
+    "productViewId"
+  ]
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
