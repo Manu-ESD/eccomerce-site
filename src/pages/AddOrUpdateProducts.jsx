@@ -49,9 +49,9 @@ const AddOrUpdateProducts = () => {
 
   return (
     <Layout>
-      <div className="w-full bg-white rounded p-6 space-y-4 mt-4">
-        <h2 className="text-xl font-bold">Product Management Portal</h2>
-        <form onSubmit={handleSubmit}>
+      <div className="w-full bg-white rounded p-6 mt-4">
+        <h2 className="text-xl font-bold mt-4">Product Management Portal</h2>
+        <form onSubmit={handleSubmit} className="space-y-4  mt-4">
           <div className="flex gap-x-3">
             {/* Brand Input */}
             <div className="brand-container">
