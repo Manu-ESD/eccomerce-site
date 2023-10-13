@@ -51,12 +51,11 @@ const ProductInCartCard = ({
   function handleRemoveProduct(ID) {
     setshowRemoveAlert(false);
     setTimeout(() => {
-      setShowRemoveConfirmAlert(true);
-    }, 500);
-
-    setTimeout(() => {
       const updatedCart = addToCart.filter((item) => item.id !== ID);
       dispatch(updateAddToCart(updatedCart));
+    }, 500);
+    setTimeout(() => {
+      setShowRemoveConfirmAlert(true);
     }, 1000);
   }
 
