@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { updateAddToCart } from "../features/cartSlice";
+import ReactImageZoom from 'react-image-zoom';
 
 // TODO: @manohar On clicking the product card store its data in redux which will be used for populating here
 
@@ -12,9 +13,7 @@ const ProductPage = () => {
   const addToCart = useSelector((state) => state.addToCart.value);
 
   const [showAlert, setshowAlert] = useState(false);
-
   const dispatch = useDispatch();
-
   const handleAddToCart = () => {
     const uniqueProducts = [];
     addToCart.forEach((products) => {
@@ -34,6 +33,8 @@ const ProductPage = () => {
     }
   };
 
+  const props = {height: 250, zoomWidth: 500, img: productData.image};
+
   return (
     <Layout>
       {Object.keys(productData).length === 0 ? (
@@ -49,11 +50,12 @@ const ProductPage = () => {
       ) : (
         <div className="min-h-screen w-[100vw] flex flex-row justify-center items-start p-10">
           <div className="w-[40%] border-[0] border-blue-950 p-5">
-            <img
+            {/* <img
               className="h-[250px] mx-auto"
               src={productData.image}
               alt="Product image"
-            ></img>
+            ></img> */}
+            <ReactImageZoom {...props} />
             <div className="mt-6 flex flex-row justify-center items-center gap-3">
               <button
                 className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105"
