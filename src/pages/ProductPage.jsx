@@ -10,6 +10,7 @@ import { updateAddToCart } from "../features/cartSlice";
 const ProductPage = () => {
   const productData = useSelector((state) => state.productViewId.value);
   const addToCart = useSelector((state) => state.addToCart.value);
+
   const [showAlert, setshowAlert] = useState(false);
 
   const dispatch = useDispatch();

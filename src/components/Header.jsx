@@ -1,12 +1,22 @@
 import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOutWithFirebase } from "../utility/utils";
 import { BiSearch } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { updateSearchValue } from "../features/searchValueSlice";
+import { getDataFromFirebase } from "../utility/utils";
+import { useEffect } from "react";
+import { getFiltersParams } from "../utility/utils";
+import { useNavigate } from "react-router-dom";
+import { updateselectedCategories } from "../features/selectedCategories";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Products", href: "/products", current: false },
@@ -23,11 +33,41 @@ export default function Header() {
   const authData = useSelector((state) => state.authData);
   const addToCart = useSelector((state) => state.addToCart.value);
 
+  const selectedCategories = useSelector(
+    (state) => state.selectedCategories.value
+  );
+
+  const [categories, setCategories] = useState([""]);
+  // const [selectedCategory, setSelectedCategory] = useState(selectedCategories);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getDataFromFirebase("products")
+      .then((data) => {
+        setCategories(getFiltersParams(data).category);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  console.log("categories", categories);
+
   const dispatch = useDispatch();
 
   const handleSearch = () => {
     dispatch(updateSearchValue(searchValue));
     console.log("search clicked", searchValue);
+  };
+
+  const handleCategorieSeletion = (category) => {
+    navigate("/products");
+    console.log("category:", category);
+    // setSelectedCategory(category);
+    setTimeout(() => {
+      dispatch(updateselectedCategories(category));
+    }, 500);
   };
 
   return (
@@ -60,20 +100,53 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <Link to={item.href} key={item.name}>
-                        <button
-                          key={item.name}
-                          className={classNames(
-                            item.current
-                              ? "bg-gray-900 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          {item.name}
-                        </button>
-                      </Link>
+                      <>
+                        {item.name !== "Products" ? (
+                          <Link to={item.href} key={item.name}>
+                            <button
+                              key={item.name}
+                              className={classNames(
+                                item.current
+                                  ? "bg-gray-900 text-white"
+                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                "rounded-md px-3 py-2 text-sm font-medium"
+                              )}
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </button>
+                          </Link>
+                        ) : (
+                          <div className="dropdown dropdown-bottom flex justify-center items-center">
+                            <label
+                              tabIndex={0}
+                              className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                            >
+                              Products
+                            </label>
+                            <ul
+                              tabIndex={0}
+                              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                            >
+                              <li
+                                value={"all"}
+                                onClick={() => handleCategorieSeletion("all")}
+                              >
+                                <a>All Items</a>
+                              </li>
+                              {categories.map((item) => (
+                                <li
+                                  value={item}
+                                  key={item}
+                                  onClick={() => handleCategorieSeletion(item)}
+                                >
+                                  <a>{item}</a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </>
                     ))}
                   </div>
                 </div>
@@ -130,12 +203,24 @@ export default function Header() {
                   </button>
                 </Link>
 
-                {
-                  authData.isLoggedIn ?
-                  <Link to="/" onClick={signOutWithFirebase} className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"><UserIcon className="h-6 w-6 me-1"/><span>Sign Out</span></Link>
-                  :
-                  <Link to="/signin" className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"><UserIcon className="h-6 w-6 me-1"/><span>Sign In</span></Link>
-                }
+                {authData.isLoggedIn ? (
+                  <Link
+                    to="/"
+                    onClick={signOutWithFirebase}
+                    className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"
+                  >
+                    <UserIcon className="h-6 w-6 me-1" />
+                    <span>Sign Out</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to="/signin"
+                    className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"
+                  >
+                    <UserIcon className="h-6 w-6 me-1" />
+                    <span>Sign In</span>
+                  </Link>
+                )}
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">

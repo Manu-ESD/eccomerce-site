@@ -12,6 +12,9 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const searchValue = useSelector((state) => state.searchValue);
+  const selectedCategories = useSelector(
+    (state) => state.selectedCategories.value
+  );
 
   console.log(searchValue);
 
@@ -34,6 +37,18 @@ const Products = () => {
         console.error(err);
       });
   }, []);
+
+  useEffect(() => {
+    selectedCategories === "all"
+      ? setFilteredProducts(productsData)
+      : setFilteredProducts(
+          productsData.filter((item) => {
+            return item.category
+              .toLowerCase()
+              .includes(selectedCategories.toLowerCase());
+          })
+        );
+  }, [selectedCategories]);
 
   function sortByPrice(sortmethod) {
     if (sortmethod === commonSortOptions[0]) {
