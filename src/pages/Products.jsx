@@ -10,7 +10,7 @@ import { updateProductsData } from "../features/productsSlice";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const productsData = useSelector(state=>state.productsData.value);
+  const productsData = useSelector((state) => state.productsData.value);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const searchValue = useSelector((state) => state.searchValue);
   const selectedCategories = useSelector(
@@ -18,7 +18,6 @@ const Products = () => {
   );
 
   useEffect(() => {
-    console.log("search value is updating in products page", searchValue);
     setFilteredProducts(
       productsData.filter((item) => {
         return item.title.toLowerCase().includes(searchValue.toLowerCase());

@@ -1,11 +1,11 @@
-import { collection, getDocs, doc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
   confirmPasswordReset,
-  deleteUser
+  deleteUser,
 } from "firebase/auth";
 import { db, auth } from "../service";
 import { v4 as uuidv4 } from "uuid";
@@ -34,6 +34,22 @@ export const postProductsData = async (type, collectionName, productsData) => {
   } else {
     await setDoc(doc(db, collectionName, uuidv4()), productsData);
   }
+};
+
+export const getProductById = (collectionName, documentID) => {
+  const docRef = doc(db, collectionName, documentID);
+  return getDoc(docRef)
+    .then((docSnap) => {
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+        return {};
+      }
+    })
+    .catch((error) => {
+      console.error("Error getting document:", error);
+    });
 };
 
 export const getFiltersParams = (productsData) => {
@@ -74,16 +90,19 @@ export const signUpHandler = (email, password) => {
     });
 };
 
-export const signInHandler = ({ email, password }) => signInWithEmailAndPassword(auth, email, password);
+export const signInHandler = ({ email, password }) =>
+  signInWithEmailAndPassword(auth, email, password);
 
-export const signUpWithFirebase = ({ email, password }) => createUserWithEmailAndPassword(auth, email, password);
+export const signUpWithFirebase = ({ email, password }) =>
+  createUserWithEmailAndPassword(auth, email, password);
 
 export const signOutWithFirebase = () => {
   signOut(auth);
   store.dispatch(signOff());
 };
 
-export const passwordReset = async (email) => await sendPasswordResetEmail(auth, email);
+export const passwordReset = async (email) =>
+  await sendPasswordResetEmail(auth, email);
 
 export const confirmThePasswordReset = async (oobCode, newPassword) => {
   if (!oobCode && !newPassword) return;
@@ -106,5 +125,3 @@ export const deleteUserFromFirebase = () => {
       console.err(error);
     });
 };
-
-

@@ -10,7 +10,6 @@ export const Cart = () => {
   const [coupons, setCoupons] = useState(0);
 
   useEffect(() => {
-    console.log("rendered");
     const price = addToCart.reduce((total, item) => {
       return total + item.price * item.orderQty;
     }, 0);

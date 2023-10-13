@@ -1,19 +1,34 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Layout from "../components/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { updateAddToCart } from "../features/cartSlice";
-import ReactImageZoom from 'react-image-zoom';
-import { useSearchParams } from 'react-router-dom';
-
-
-// TODO: @manohar On clicking the product card store its data in redux which will be used for populating here
+import ReactImageZoom from "react-image-zoom";
+import { useSearchParams } from "react-router-dom";
+import { getProductById } from "../utility/utils";
 
 const ProductPage = () => {
   const [searchParams] = useSearchParams();
-  const productsData = useSelector(state=>state.productsData.value);
-  const productData = useMemo(()=>(productsData.filter((data)=>(data.id).toString()===searchParams.get("id"))[0]),[productsData,searchParams]);
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    getProductById("products", `product-${searchParams.get("id")}`).then(
+      (data) => {
+        setProductData(data);
+        console.log("data", data);
+      }
+    );
+  }, []);
+
+  // const productsData = useSelector((state) => state.productsData.value);
+  // const productData = useMemo(
+  //   () =>
+  //     productsData.filter(
+  //       (data) => data.id.toString() ===
+  //     )[0],
+  //   [productsData, searchParams]
+  // );
   const addToCart = useSelector((state) => state.addToCart.value);
   const [showAlert, setshowAlert] = useState(false);
   const dispatch = useDispatch();
@@ -26,10 +41,7 @@ const ProductPage = () => {
     if (!uniqueProducts.includes(productData.id)) {
       const productInCart = { ...productData, orderQty: 1 };
       dispatch(updateAddToCart([...addToCart, productInCart]));
-      console.log("addtocart", productInCart);
     } else {
-      // TODO: popup already added
-      console.log("already exists");
       setshowAlert(true);
       setTimeout(() => {
         setshowAlert(false);
@@ -37,7 +49,7 @@ const ProductPage = () => {
     }
   };
 
-  const props = {height: 250, zoomWidth: 500, img: productData.image};
+  const props = { height: 250, zoomWidth: 500, img: productData.image };
 
   return (
     <Layout>

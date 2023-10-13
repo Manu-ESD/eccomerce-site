@@ -52,18 +52,14 @@ export default function Header() {
       });
   }, []);
 
-  console.log("categories", categories);
-
   const dispatch = useDispatch();
 
   const handleSearch = () => {
     dispatch(updateSearchValue(searchValue));
-    console.log("search clicked", searchValue);
   };
 
   const handleCategorieSeletion = (category) => {
     navigate("/products");
-    console.log("category:", category);
     // setSelectedCategory(category);
     setTimeout(() => {
       dispatch(updateselectedCategories(category));
