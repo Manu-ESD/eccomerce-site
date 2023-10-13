@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { signInHandler } from "../utility/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../features/authSlice";
-import { browserSessionPersistence, setPersistence } from "firebase/auth";
-import { auth } from "../service";
 
 
 const SignIn = () => {
@@ -14,7 +12,6 @@ const SignIn = () => {
     const authData = useSelector((state) => state.authData);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const signInClickHandler = async () => {
@@ -25,10 +22,6 @@ const SignIn = () => {
             const { user } = res;
             setLoading(false);
             dispatch(signIn({ displayName:user.displayName, email:user.email, phoneNumber:user.phoneNumber, photoURL:user.photoURL }));
-            // TODO: Fix remember me logic
-            if (rememberMe) {
-                setPersistence(auth, browserSessionPersistence);
-            }
             navigate("/");
           }
         } catch (err) {
@@ -87,19 +80,6 @@ const SignIn = () => {
               </button>
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex flex-row items-center">
-                <input
-                  type="checkbox"
-                  className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
-                  onChange={() => setRememberMe(!rememberMe)}
-                />
-                <label
-                  htmlFor="comments"
-                  className="ml-2 text-sm font-normal text-gray-600"
-                >
-                  Remember me
-                </label>
-              </div>
               <div>
                 <Link
                   to="/password-reset"
