@@ -5,18 +5,17 @@ import Layout from "../components/Layout";
 import FilterSelect from "../components/FilterSelect";
 import { commonSortOptions } from "../utility/constants";
 import { getDataFromFirebase } from "../utility/utils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProductsData } from "../features/productsSlice";
 
 const Products = () => {
-  const [productsData, setProductsData] = useState([]);
+  const dispatch = useDispatch();
+  const productsData = useSelector(state=>state.productsData.value);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
   const searchValue = useSelector((state) => state.searchValue);
   const selectedCategories = useSelector(
     (state) => state.selectedCategories.value
   );
-
-  console.log(searchValue);
 
   useEffect(() => {
     console.log("search value is updating in products page", searchValue);
@@ -30,7 +29,7 @@ const Products = () => {
   useEffect(() => {
     getDataFromFirebase("products")
       .then((data) => {
-        setProductsData(data);
+        dispatch(updateProductsData(data));
         setFilteredProducts(data);
       })
       .catch((err) => {

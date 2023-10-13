@@ -4,6 +4,7 @@ import { productViewReducer } from "./features/productViewSlice";
 import { searchValueReducer } from "./features/searchValueSlice";
 import { authDataReducer } from "./features/authSlice";
 import { selectedCategoriesReducer } from "./features/selectedCategories";
+import { productsDataReducer } from "./features/productsSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     searchValue: searchValueReducer,
     authData: authDataReducer,
     selectedCategories: selectedCategoriesReducer,
+    productsData:productsDataReducer
   },
 });
 

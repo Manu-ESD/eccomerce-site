@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import StarRatingsComponent from "../components/StarRatingsComponent";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,createSearchParams } from "react-router-dom";
 import { updateProductViewId } from "../features/productViewSlice";
 
 const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
@@ -12,10 +12,14 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
   }
 
   const handleProductView = (product, cardType) => {
-    console.log("product clicked id:", product);
     handleProductViewId(product);
     if (cardType !== "remove") {
-      navigate("/products/view");
+      navigate({
+        pathname: "/products/view",
+        search: createSearchParams({
+          id: product.id,
+        }).toString(),
+      });
     }
   };
 

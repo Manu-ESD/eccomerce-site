@@ -1,19 +1,23 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Layout from "../components/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { updateAddToCart } from "../features/cartSlice";
 import ReactImageZoom from 'react-image-zoom';
+import { useSearchParams } from 'react-router-dom';
+
 
 // TODO: @manohar On clicking the product card store its data in redux which will be used for populating here
 
 const ProductPage = () => {
-  const productData = useSelector((state) => state.productViewId.value);
+  const [searchParams] = useSearchParams();
+  const productsData = useSelector(state=>state.productsData.value);
+  const productData = useMemo(()=>(productsData.filter((data)=>(data.id).toString()===searchParams.get("id"))[0]),[productsData,searchParams]);
   const addToCart = useSelector((state) => state.addToCart.value);
-
   const [showAlert, setshowAlert] = useState(false);
   const dispatch = useDispatch();
+
   const handleAddToCart = () => {
     const uniqueProducts = [];
     addToCart.forEach((products) => {
