@@ -20,7 +20,7 @@ export const Cart = () => {
   return (
     <Layout>
       <div className="h-screen flex flex-row gap-4 my-4 w-full px-5 mx-auto justify-center">
-        <div className="w-[70vw]">
+        <div className="w-[65vw]">
           <div className="overflow-y-scroll	h-[90vh] ">
             {addToCart.length === 0 && (
               <p className="text-center">CART IS EMPTY</p>
@@ -44,7 +44,7 @@ export const Cart = () => {
             </button>
           </div>
         </div>
-        <div className="w-[20%] h-fit p-4 shadow-md">
+        <div className="w-[25vw] h-fit p-4 shadow-md">
           <div className="flex flex-col">
             <h2 className="font-semibold">PRICE DETAILS</h2>
             <div className="flex flex-row justify-between items-center my-2">

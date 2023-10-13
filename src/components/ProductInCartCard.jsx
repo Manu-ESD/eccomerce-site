@@ -4,6 +4,7 @@ import StarRatingsComponent from "../components/StarRatingsComponent";
 import { useNavigate } from "react-router-dom";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useState } from "react";
 
 import { updateProductViewId } from "../features/productViewSlice";
 
@@ -17,6 +18,9 @@ const ProductInCartCard = ({
 }) => {
   const addToCart = useSelector((state) => state.addToCart.value);
   const dispatch = useDispatch();
+
+  const [showRemoveAlert, setshowRemoveAlert] = useState(false);
+  const [showRemoveConfirmAlert, setShowRemoveConfirmAlert] = useState(false);
 
   function handleRemoveQty(productID) {
     const updatedCart = addToCart.map((item) => {
@@ -45,12 +49,19 @@ const ProductInCartCard = ({
   }
 
   function handleRemoveProduct(ID) {
-    const updatedCart = addToCart.filter((item) => item.id !== ID);
-    dispatch(updateAddToCart(updatedCart));
+    setshowRemoveAlert(false);
+    setTimeout(() => {
+      setShowRemoveConfirmAlert(true);
+    }, 500);
+
+    setTimeout(() => {
+      const updatedCart = addToCart.filter((item) => item.id !== ID);
+      dispatch(updateAddToCart(updatedCart));
+    }, 1000);
   }
 
   return (
-    <div className="w-[100%] h-[15rem] shadow-lg rounded-none cursor-pointer flex flex-col justify-around mt-4">
+    <div className="w-[100%] h-[15rem] border-2 border-[#afafafc1] shadow-lg rounded-none cursor-pointer flex flex-col justify-around mt-4">
       <div className="w-[100%] h-[80%] flex flex-row ga-5">
         <figure className="w-[20%] ml-3 mt-5">
           <img src={imgLink} alt="product-img" className="h-[80%] mx-auto" />
@@ -98,12 +109,67 @@ const ProductInCartCard = ({
         <p
           className="font-medium hover:text-blue-600"
           onClick={() => {
-            handleRemoveProduct(product.id);
+            setshowRemoveAlert(true);
           }}
         >
           REMOVE
         </p>
       </div>
+      {/* ALERT */}
+      {showRemoveAlert ? (
+        <div className="alert absolute top-[50px] w-[500px] left-[calc(50%-250px)] border-2 border-black">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="stroke-info shrink-0 w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>Do you want to remove the item from Cart?</span>
+          <div>
+            <button
+              onClick={() => {
+                setshowRemoveAlert(false);
+              }}
+              className="btn btn-sm"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                handleRemoveProduct(product.id);
+              }}
+              className="btn btn-sm btn-primary"
+            >
+              Accept
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {showRemoveConfirmAlert ? (
+        <div className="alert alert-info absolute top-[50px] w-[500px] left-[calc(50%-250px)] border-2 border-black">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="stroke-current shrink-0 w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>item Removed.</span>
+        </div>
+      ) : null}
     </div>
   );
 };
