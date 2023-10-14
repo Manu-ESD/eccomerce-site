@@ -57,13 +57,14 @@ const ProductPage = () => {
         </div>
       ) : (
         <div className="min-h-screen w-[100vw] flex flex-row justify-center items-start p-10">
-          <div className="w-[40%] border-[0] border-blue-950 p-5">
+          <div className="w-[40%] border-[0] border-blue-950 p-5 flex flex-col justify-center items-center">
             {/* <img
               className="h-[250px] mx-auto"
               src={productData.image}
               alt="Product image"
             ></img> */}
             <ReactImageZoom {...props} />
+
             <div className="mt-6 flex flex-row justify-center items-center gap-3">
               <button
                 className=" bg-blue-950 text-white font-medium px-4 py-3 rounded-lg hover:scale-105"

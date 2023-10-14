@@ -3,29 +3,19 @@ import { updateAddToCart } from "../features/cartSlice";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import {
-  doc,
-  setDoc
-} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../service";
 import { postDataToFirebase } from "../utility/utils";
 
-const ProductInCartCard = ({
-  imgLink,
-  title,
-  rating,
-  price,
-  product
-}) => {
+const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
   const addToCart = useSelector((state) => state.addToCart.value);
   const dispatch = useDispatch();
 
   const [showRemoveAlert, setshowRemoveAlert] = useState(false);
   const [showRemoveConfirmAlert, setShowRemoveConfirmAlert] = useState(false);
 
-  const handleCartUpdate = ({operation,id})=>{
-    const dataToUpdate = addToCart.filter((cartItem)=>cartItem.id===id)[0];
-
+  const handleCartUpdate = ({ operation, id }) => {
+    const dataToUpdate = addToCart.filter((cartItem) => cartItem.id === id)[0];
 
     // postDataToFirebase({
     //   collectionName:"cart",
@@ -33,7 +23,7 @@ const ProductInCartCard = ({
     //   id:`cart-${element.id}`,
     //   operation:"add"
     // });
-  }
+  };
 
   function handleRemoveQty(productID) {
     const updatedCart = addToCart.map((item) => {
@@ -91,7 +81,7 @@ const ProductInCartCard = ({
   }
 
   return (
-    <div className="w-[100%] h-[15rem] border-2 border-[#afafafc1] shadow-lg rounded-none cursor-pointer flex flex-col justify-around mt-4">
+    <div className="w-[100%] h-[15rem] shadow-grey rounded-none cursor-pointer flex flex-col justify-around mt-4">
       <div className="w-[100%] h-[80%] flex flex-row ga-5">
         <figure className="w-[20%] ml-3 mt-5">
           <img src={imgLink} alt="product-img" className="h-[80%] mx-auto" />
@@ -108,7 +98,7 @@ const ProductInCartCard = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-start items-center w-[100%]">
+      <div className="flex flex-row justify-start items-center w-[100%] pb-5">
         <div className="flex flex-row gap-2 w-[20%] justify-center">
           <button
             className="text-black hover:text-blue-400 rounded-full border-2 p-1 border-[#afafaf] scale-75"
@@ -130,14 +120,14 @@ const ProductInCartCard = ({
             <AiOutlinePlus />
           </button>
         </div>
-        <p
+        {/* <p
           className="font-medium mr-6 ml-3 hover:text-blue-600"
           onClick={handleSaveForLater}
         >
           SAVE FOR LATER
-        </p>
+        </p> */}
         <p
-          className="font-medium hover:text-blue-600"
+          className="font-medium hover:text-blue-600 ml-3"
           onClick={() => {
             setshowRemoveAlert(true);
           }}
