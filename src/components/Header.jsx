@@ -17,6 +17,16 @@ import { useEffect } from "react";
 import { getFiltersParams } from "../utility/utils";
 import { useNavigate } from "react-router-dom";
 import { updateselectedCategories } from "../features/selectedCategories";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db, auth } from "../service";
+
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Products", href: "/products", current: false },
@@ -36,6 +46,12 @@ export default function Header() {
   const selectedCategories = useSelector(
     (state) => state.selectedCategories.value
   );
+
+  useEffect(() => {
+    addToCart.forEach(async (element) => {
+      await setDoc(doc(db, "cart", `cart-${element.id}`), { ...element });
+    });
+  }, [addToCart]);
 
   const [categories, setCategories] = useState([""]);
   // const [selectedCategory, setSelectedCategory] = useState(selectedCategories);
@@ -98,7 +114,7 @@ export default function Header() {
                     {navigation.map((item) => (
                       <>
                         {item.name !== "Products" ? (
-                          <Link to={item.href} key={item.name}>
+                          <Link to={item.href} key={item.id}>
                             <button
                               key={item.name}
                               className={classNames(

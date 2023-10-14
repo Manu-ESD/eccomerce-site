@@ -5,15 +5,15 @@ import ProductInCartCard from "./ProductInCartCard";
 
 export const Cart = () => {
   const addToCart = useSelector((state) => state.addToCart.value);
-  const [totalPrice, settotalPrice] = useState(0);
-  const [discount, setdiscount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [coupons, setCoupons] = useState(0);
 
   useEffect(() => {
     const price = addToCart.reduce((total, item) => {
       return total + item.price * item.orderQty;
     }, 0);
-    settotalPrice(price);
+    setTotalPrice(price);
   }, [addToCart]);
 
   return (

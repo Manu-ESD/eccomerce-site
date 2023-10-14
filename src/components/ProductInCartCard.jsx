@@ -4,8 +4,16 @@ import StarRatingsComponent from "../components/StarRatingsComponent";
 import { useNavigate } from "react-router-dom";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db, auth } from "../service";
 import { updateProductViewId } from "../features/productViewSlice";
 
 const ProductInCartCard = ({
@@ -25,6 +33,12 @@ const ProductInCartCard = ({
   function handleRemoveQty(productID) {
     const updatedCart = addToCart.map((item) => {
       if (item.id === productID && item.orderQty > 1) {
+        (async () => {
+          await setDoc(doc(db, "cart", `cart-${item.id}`), {
+            ...item,
+            orderQty: item.orderQty - 1,
+          });
+        })();
         return { ...item, orderQty: item.orderQty - 1 };
       } else {
         return item;
@@ -36,6 +50,13 @@ const ProductInCartCard = ({
   function handleAddQty(productID) {
     const updatedCart = addToCart.map((item) => {
       if (item.id === productID && item.orderQty < item.stock) {
+        (async () => {
+          await setDoc(doc(db, "cart", `cart-${item.id}`), {
+            ...item,
+            orderQty: item.orderQty + 1,
+          });
+        })();
+        console.log("item", item);
         return { ...item, orderQty: item.orderQty + 1 };
       } else {
         return item;
@@ -43,6 +64,11 @@ const ProductInCartCard = ({
     });
     dispatch(updateAddToCart(updatedCart));
   }
+
+  useEffect(() => {
+    console.log("____++++____");
+  }, [addToCart]);
+
   //TODO: SAVE FOR LATER to be implemented
   function handleSaveForLater() {
     console.log("SAVE FOR LATER");
