@@ -39,13 +39,18 @@ export const getDataFromFirebase = async (collectionName) => {
   }
 };
 
-export const postProductsData = async (type, collectionName, productsData) => {
+export const postDataToFirebase = async ({
+  type = "single",
+  collectionName,
+  dataToWrite,
+  id = uuidv4(),
+}) => {
   if (type === "isMulti") {
-    productsData.forEach(async (data) => {
-      await setDoc(doc(db, collectionName, uuidv4()), data);
+    dataToWrite.forEach(async (data) => {
+      await setDoc(doc(db, collectionName, id), data);
     });
   } else {
-    await setDoc(doc(db, collectionName, uuidv4()), productsData);
+    await setDoc(doc(db, collectionName, id), dataToWrite);
   }
 };
 

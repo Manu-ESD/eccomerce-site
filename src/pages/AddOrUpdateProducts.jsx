@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
-import { postProductsData } from "../utility/utils";
+import { postDataToFirebase } from "../utility/utils";
 
 const AddOrUpdateProducts = () => {
   const [formData, setFormData] = useState({
@@ -37,7 +37,10 @@ const AddOrUpdateProducts = () => {
         },
       });
 
-      const response = await postProductsData("", "products", formData);
+      const response = await postDataToFirebase({
+        collectionName:"products",
+        dataToWrite:formData
+      });
       if (!response) {
         throw new Error("Unable to add product");
       }
