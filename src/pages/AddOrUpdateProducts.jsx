@@ -39,7 +39,8 @@ const AddOrUpdateProducts = () => {
 
       const response = await postDataToFirebase({
         collectionName:"products",
-        dataToWrite:formData
+        dataToOperate:formData,
+        operation:"add"
       });
       if (!response) {
         throw new Error("Unable to add product");

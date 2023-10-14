@@ -1,34 +1,39 @@
 import { useSelector, useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
 import StarRatingsComponent from "../components/StarRatingsComponent";
-import { useNavigate } from "react-router-dom";
-import { FaRegCircleXmark } from "react-icons/fa6";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import {
-  collection,
-  getDocs,
   doc,
-  setDoc,
-  getDoc,
-  updateDoc,
+  setDoc
 } from "firebase/firestore";
-import { db, auth } from "../service";
-import { updateProductViewId } from "../features/productViewSlice";
+import { db } from "../service";
+import { postDataToFirebase } from "../utility/utils";
 
 const ProductInCartCard = ({
   imgLink,
   title,
   rating,
   price,
-  product,
-  cardType,
+  product
 }) => {
   const addToCart = useSelector((state) => state.addToCart.value);
   const dispatch = useDispatch();
 
   const [showRemoveAlert, setshowRemoveAlert] = useState(false);
   const [showRemoveConfirmAlert, setShowRemoveConfirmAlert] = useState(false);
+
+  const handleCartUpdate = ({operation,id})=>{
+    const dataToUpdate = addToCart.filter((cartItem)=>cartItem.id===id)[0];
+
+
+    // postDataToFirebase({
+    //   collectionName:"cart",
+    //   dataToOperate:{ ...element },
+    //   id:`cart-${element.id}`,
+    //   operation:"add"
+    // });
+  }
 
   function handleRemoveQty(productID) {
     const updatedCart = addToCart.map((item) => {

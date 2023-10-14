@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -42,15 +42,28 @@ export const getDataFromFirebase = async (collectionName) => {
 export const postDataToFirebase = async ({
   type = "single",
   collectionName,
-  dataToWrite,
+  dataToOperate,
   id = uuidv4(),
+  operation,
 }) => {
-  if (type === "isMulti") {
-    dataToWrite.forEach(async (data) => {
-      await setDoc(doc(db, collectionName, id), data);
-    });
-  } else {
-    await setDoc(doc(db, collectionName, id), dataToWrite);
+  if (operation === "add" || operation === "update") {
+    if (type === "isMulti") {
+      dataToOperate.forEach(async (data) => {
+        await setDoc(doc(db, collectionName, id), data);
+      });
+    } else {
+      await setDoc(doc(db, collectionName, id), dataToOperate);
+    }
+  }
+
+  if (operation === "delete") {
+    if (type == "isMulti") {
+      dataToOperate.forEach(async (data) => {
+        await deleteDoc(doc(db, collectionName, id), data);
+      });
+    } else {
+      await deleteDoc(doc(db, collectionName, id));
+    }
   }
 };
 

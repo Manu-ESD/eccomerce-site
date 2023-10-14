@@ -53,8 +53,9 @@ export default function Header() {
     addToCart.forEach(async (element) => {
       postDataToFirebase({
         collectionName:"cart",
-        dataToWrite:{ ...element },
-        id:`cart-${element.id}`
+        dataToOperate:{ ...element },
+        id:`cart-${element.id}`,
+        operation:"add"
       });
     });
   }, [addToCart]);

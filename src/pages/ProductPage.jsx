@@ -7,9 +7,6 @@ import { updateAddToCart } from "../features/cartSlice";
 import ReactImageZoom from "react-image-zoom";
 import { useSearchParams } from "react-router-dom";
 import { getProductById } from "../utility/utils";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../service";
-import { v4 as uuidv4 } from "uuid";
 
 const ProductPage = () => {
   const [searchParams] = useSearchParams();
@@ -24,14 +21,6 @@ const ProductPage = () => {
     );
   }, [searchParams]);
 
-  // const productsData = useSelector((state) => state.productsData.value);
-  // const productData = useMemo(
-  //   () =>
-  //     productsData.filter(
-  //       (data) => data.id.toString() ===
-  //     )[0],
-  //   [productsData, searchParams]
-  // );
   const addToCart = useSelector((state) => state.addToCart.value);
   const [showAlert, setshowAlert] = useState(false);
   const dispatch = useDispatch();
