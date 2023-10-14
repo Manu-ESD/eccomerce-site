@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
@@ -19,7 +19,7 @@ const ProductPage = () => {
         console.log("data", data);
       }
     );
-  }, []);
+  }, [searchParams]);
 
   // const productsData = useSelector((state) => state.productsData.value);
   // const productData = useMemo(

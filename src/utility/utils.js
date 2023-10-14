@@ -12,6 +12,19 @@ import { v4 as uuidv4 } from "uuid";
 import store from "../store";
 import { signOff } from "../features/authSlice";
 
+
+export const titleCase = (s) =>
+    s
+        ? s.replace(/^_*(.)|_+(.)/g, (_, c, d) =>
+            c ? c.toUpperCase() : " " + d.toUpperCase()
+        )
+        : s;
+
+export const headerFormatter = (title)=>{
+  const headerParam = title?.split("-").join(" ");
+  return titleCase(headerParam);
+}
+
 export const getDataFromFirebase = async (collectionName) => {
   try {
     const querySnapshot = await getDocs(collection(db, collectionName));
@@ -81,7 +94,9 @@ export const getProductsParams = (productsData) => {
     discount.push(product.discountPercentage);
     category.push(product.category);
     subCategory.push(product["sub-category"]);
+    if(product["sub-category"]?.length){
     categories[product.category].push(product["sub-category"]);
+    }
   });
 
   for (const category in categories) {

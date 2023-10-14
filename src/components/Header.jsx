@@ -4,7 +4,7 @@ import {
   BellIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link,useNavigate,createSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOutWithFirebase } from "../utility/utils";
 import { useDispatch } from "react-redux";
@@ -12,34 +12,40 @@ import { updateSearchValue } from "../features/searchValueSlice";
 import { getDataFromFirebase } from "../utility/utils";
 import { useEffect } from "react";
 import { getProductsParams } from "../utility/utils";
-import { useNavigate } from "react-router-dom";
-import { updateselectedCategories } from "../features/selectedCategories";
 import { navigationRoutes } from "../utility/constants";
 import SearchComponent from "./SearchComponent";
+import CategoryDropDown from "./CategoryDropDown";
+import { updateProductsData } from "../features/productsSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const authData = useSelector((state) => state.authData);
   const addToCart = useSelector((state) => state.addToCart.value);
-
-  const selectedCategories = useSelector(
-    (state) => state.selectedCategories.value
-  );
-
-  const [categories, setCategories] = useState([""]);
-  // const [selectedCategory, setSelectedCategory] = useState(selectedCategories);
-
-  const navigate = useNavigate();
+  const [categoryArr, setCategoryArr] = useState();
+  const [allCategories,setAllCategories] = useState();
+  const handleCategory = (category,subCategory) => {
+    navigate({
+      pathname: "/products",
+      search: createSearchParams({
+        category,
+        "sub-category": subCategory,
+      }).toString(),
+    });
+  };
 
   useEffect(() => {
+    // !Note: In production we do not get all the data at once, this implementation is for the current project only
     getDataFromFirebase("products")
       .then((data) => {
-        console.log(getProductsParams(data));
-        setCategories(getProductsParams(data).category);
+        const { category,categories } = getProductsParams(data);
+        dispatch(updateProductsData(data));
+        setCategoryArr(category);
+        setAllCategories(categories);
       })
       .catch((err) => {
         console.error(err);
@@ -50,14 +56,6 @@ export default function Header() {
 
   const handleSearch = () => {
     dispatch(updateSearchValue(searchValue));
-  };
-
-  const handleCategorieSeletion = (category) => {
-    navigate("/products");
-    // setSelectedCategory(category);
-    setTimeout(() => {
-      dispatch(updateselectedCategories(category));
-    }, 500);
   };
 
   return (
@@ -215,56 +213,11 @@ export default function Header() {
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                      {navigationRoutes.map((item) => (
-                        <>
-                          {item.name !== "Products" ? (
-                            <Link
-                              to={item.href}
-                              key={item.name}
-                              className={classNames(
-                                item.current
-                                  ? "bg-gray-900 text-white"
-                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                "rounded-md px-3 py-2 text-sm font-medium"
-                              )}
-                              aria-current={item.current ? "page" : undefined}
-                            >
-                              {item.name}
-                            </Link>
-                          ) : (
-                            <div className="dropdown dropdown-bottom flex justify-center items-center">
-                              <label
-                                tabIndex={0}
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                              >
-                                Products
-                              </label>
-                              <ul
-                                tabIndex={0}
-                                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                              >
-                                <li
-                                  value={"all"}
-                                  onClick={() => handleCategorieSeletion("all")}
-                                >
-                                  <a>All Items</a>
-                                </li>
-                                {categories.map((item) => (
-                                  <li
-                                    value={item}
-                                    key={item}
-                                    onClick={() =>
-                                      handleCategorieSeletion(item)
-                                    }
-                                  >
-                                    <a>{item}</a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </>
-                      ))}
+                      {
+                        categoryArr?.map((category,index)=>{
+                          return <CategoryDropDown handleCategory={handleCategory} category={category} subCategory={allCategories[category]} key={index}/>
+                        })
+                      }
                     </div>
                   </div>
                 </div>

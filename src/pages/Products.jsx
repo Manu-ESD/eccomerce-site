@@ -7,23 +7,24 @@ import { commonSortOptions } from "../utility/constants";
 import { getDataFromFirebase } from "../utility/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProductsData } from "../features/productsSlice";
+import { useSearchParams } from "react-router-dom";
 
 const Products = () => {
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
   const productsData = useSelector((state) => state.productsData.value);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const searchValue = useSelector((state) => state.searchValue);
-  const selectedCategories = useSelector(
-    (state) => state.selectedCategories.value
-  );
-
+  const selectedCategory = searchParams.get("category");
+  const selectedSubCategory = searchParams.get("sub-category");
+  
   useEffect(() => {
     setFilteredProducts(
       productsData.filter((item) => {
         return item.title.toLowerCase().includes(searchValue.toLowerCase());
       })
     );
-  }, [searchValue]);
+  }, [productsData,searchValue]);
 
   useEffect(() => {
     getDataFromFirebase("products")
@@ -37,16 +38,18 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    selectedCategories === "all"
-      ? setFilteredProducts(productsData)
-      : setFilteredProducts(
-          productsData.filter((item) => {
-            return item.category
-              .toLowerCase()
-              .includes(selectedCategories.toLowerCase());
-          })
-        );
-  }, [selectedCategories]);
+    setFilteredProducts(
+      selectedSubCategory
+        ? productsData.filter(
+            (item) => item["sub-category"] === selectedSubCategory
+          )
+        : selectedCategory
+        ? productsData.filter(
+            (item) => item.category === selectedCategory
+          )
+        : productsData
+    );
+  }, [productsData, selectedSubCategory, selectedCategory]);
 
   function sortByPrice(sortmethod) {
     if (sortmethod === commonSortOptions[0]) {
