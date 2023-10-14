@@ -9,8 +9,11 @@ import { useSearchParams } from "react-router-dom";
 import { getProductById } from "../utility/utils";
 
 const ProductPage = () => {
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [productData, setProductData] = useState([]);
+  const addToCart = useSelector((state) => state.addToCart.value);
+  const [showAlert, setshowAlert] = useState(false);
 
   useEffect(() => {
     getProductById("products", `product-${searchParams.get("id")}`).then(
@@ -20,10 +23,6 @@ const ProductPage = () => {
       }
     );
   }, [searchParams]);
-
-  const addToCart = useSelector((state) => state.addToCart.value);
-  const [showAlert, setshowAlert] = useState(false);
-  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
     const uniqueProducts = [];

@@ -8,66 +8,39 @@ import { db } from "../service";
 import { postDataToFirebase } from "../utility/utils";
 
 const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
-  const addToCart = useSelector((state) => state.addToCart.value);
   const dispatch = useDispatch();
-
+  const addToCart = useSelector((state) => state.addToCart.value);
   const [showRemoveAlert, setshowRemoveAlert] = useState(false);
   const [showRemoveConfirmAlert, setShowRemoveConfirmAlert] = useState(false);
+  const [orderQty,setOrderQty] = useState(product.orderQty);
 
-  const handleCartUpdate = ({ operation, id }) => {
-    const dataToUpdate = addToCart.filter((cartItem) => cartItem.id === id)[0];
+  const handleCartUpdate = ({ operation, id,orderQty }) => {
+    
+    if(operation === "delete"){
+      postDataToFirebase({
+      collectionName:"cart",
+      id:`cart-${id}`,
+      operation:"delete"
+    });
+    }else{
+    /**
+     * When working with nested objects or arrays in Redux, making a deep copy becomes crucial to avoid unintentional mutations.
+     * If you directly modify a nested property of an object in the Redux state.
+     * It can lead to unexpected behavior and make it difficult to track changes.
+     */
+      const cartData = JSON.parse(JSON.stringify(addToCart));
+      const dataToUpdate = cartData.filter((cartItem) => cartItem.id === id)[0];
+      dataToUpdate.orderQty = orderQty;
+      postDataToFirebase({
+        collectionName:"cart",
+        id:`cart-${id}`,
+        operation:"add",
+        dataToOperate:dataToUpdate
+      });
+      dispatch(updateAddToCart(cartData));
+    }
 
-    // postDataToFirebase({
-    //   collectionName:"cart",
-    //   dataToOperate:{ ...element },
-    //   id:`cart-${element.id}`,
-    //   operation:"add"
-    // });
   };
-
-  function handleRemoveQty(productID) {
-    const updatedCart = addToCart.map((item) => {
-      if (item.id === productID && item.orderQty > 1) {
-        (async () => {
-          await setDoc(doc(db, "cart", `cart-${item.id}`), {
-            ...item,
-            orderQty: item.orderQty - 1,
-          });
-        })();
-        return { ...item, orderQty: item.orderQty - 1 };
-      } else {
-        return item;
-      }
-    });
-    dispatch(updateAddToCart(updatedCart));
-  }
-
-  function handleAddQty(productID) {
-    const updatedCart = addToCart.map((item) => {
-      if (item.id === productID && item.orderQty < item.stock) {
-        (async () => {
-          await setDoc(doc(db, "cart", `cart-${item.id}`), {
-            ...item,
-            orderQty: item.orderQty + 1,
-          });
-        })();
-        console.log("item", item);
-        return { ...item, orderQty: item.orderQty + 1 };
-      } else {
-        return item;
-      }
-    });
-    dispatch(updateAddToCart(updatedCart));
-  }
-
-  useEffect(() => {
-    console.log("____++++____");
-  }, [addToCart]);
-
-  //TODO: SAVE FOR LATER to be implemented
-  function handleSaveForLater() {
-    console.log("SAVE FOR LATER");
-  }
 
   function handleRemoveProduct(ID) {
     setshowRemoveAlert(false);
@@ -79,6 +52,26 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
       setShowRemoveConfirmAlert(true);
     }, 1000);
   }
+
+  const updateQtyHandler = ({ type, value }) => {
+    setOrderQty((prev) => {
+      let newQty;
+      if (type === "increment") {
+        newQty = prev + 1;
+      } else if (type === "decrement") {
+        newQty = prev - 1;
+      } else {
+        newQty = value;
+      }
+
+      handleCartUpdate({
+        id: product.id,
+        orderQty: newQty,
+      });
+
+      return newQty;
+    });
+  };
 
   return (
     <div className="w-[100%] h-[15rem] shadow-grey rounded-none cursor-pointer flex flex-col justify-around mt-4">
@@ -102,20 +95,17 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
         <div className="flex flex-row gap-2 w-[20%] justify-center">
           <button
             className="text-black hover:text-blue-400 rounded-full border-2 p-1 border-[#afafaf] scale-75"
-            onClick={() => {
-              handleRemoveQty(product.id);
-            }}
+            onClick={() => updateQtyHandler({type:"decrement"})}
           >
             <AiOutlineMinus />
           </button>
-          <p className="px-2 w-10 text-center border-2 border-[#afafaf] rounded-md">
-            {product.orderQty}
-          </p>
+          <input className="px-2 w-10 text-center border-2 border-[#afafaf] rounded-md"
+          value={orderQty}
+          onChange={(e)=>updateQtyHandler({type:"",value:e.target.value})}
+          />
           <button
             className="text-black hover:text-blue-400 rounded-full border-2 p-1 border-[#afafaf] scale-75"
-            onClick={() => {
-              handleAddQty(product.id);
-            }}
+            onClick={() => updateQtyHandler({type:"increment"})}
           >
             <AiOutlinePlus />
           </button>
