@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { HiOutlineBell, HiUser, HiShoppingCart } from "react-icons/hi"
+import { HiOutlineBell, HiUser, HiShoppingCart } from "react-icons/hi";
 import { Link,useNavigate,createSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOutWithFirebase } from "../utility/utils";
