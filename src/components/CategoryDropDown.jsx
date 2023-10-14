@@ -25,7 +25,7 @@ const CategoryDropDown = ({handleCategory, category, subCategory }) => {
               key={item}
               onClick={() => handleCategory(category, item)}
             >
-              <div className={"block px-4 py-2 text-sm text-gray-700"}>
+              <div className="block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer hover:bg-gray-100">
                 {headerFormatter(item)}
               </div>
             </Menu.Item>

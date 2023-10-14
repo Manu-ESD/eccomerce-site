@@ -178,8 +178,7 @@ export default function Header() {
         </div>
       </>
       <Disclosure as="nav" className="bg-gray-800">
-        {({ open }) => (
-          <>
+      <>
             <div className="mx-auto max-w-7xl px-2 sm:px-6 md:px-8">
               <div className="relative flex h-10 items-center justify-between">
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
@@ -217,7 +216,6 @@ export default function Header() {
               </div>
             </Disclosure.Panel>
           </>
-        )}
       </Disclosure>
     </>
   );
