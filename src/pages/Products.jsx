@@ -12,8 +12,8 @@ import { useSearchParams } from "react-router-dom";
 const Products = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-  const productsData = useSelector((state) => state.productsData.value);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const productsData = useSelector((state) => state.productsData.value);
   const searchValue = useSelector((state) => state.searchValue);
   const selectedCategory = searchParams.get("category");
   const selectedSubCategory = searchParams.get("sub-category");
@@ -112,9 +112,8 @@ const Products = () => {
             />
           </div>
 
-          <div className="flex flex-row justify-center items-center">
-            <div className="flex flex-row flex-wrap gap-6 max-w-fit">
-              {filteredProducts.map((item) => (
+          <div className="flex flex-row items-center flex-wrap gap-6 max-w-fit">
+          {filteredProducts.map((item) => (
                 <ProductCard
                   key={item.id}
                   imgLink={item.image}
@@ -126,7 +125,6 @@ const Products = () => {
                   cardType="add"
                 ></ProductCard>
               ))}
-            </div>
           </div>
         </div>
       )}

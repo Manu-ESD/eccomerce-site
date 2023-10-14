@@ -1,9 +1,6 @@
 import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import {
-  BellIcon,
-  UserIcon,
-} from "@heroicons/react/24/outline";
+import { HiOutlineBell, HiUser, HiShoppingCart } from "react-icons/hi"
 import { Link,useNavigate,createSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOutWithFirebase } from "../utility/utils";
@@ -13,9 +10,9 @@ import { getDataFromFirebase } from "../utility/utils";
 import { useEffect } from "react";
 import { getProductsParams } from "../utility/utils";
 import { navigationRoutes } from "../utility/constants";
+import { updateProductsData } from "../features/productsSlice";
 import SearchComponent from "./SearchComponent";
 import CategoryDropDown from "./CategoryDropDown";
-import { updateProductsData } from "../features/productsSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -78,29 +75,16 @@ export default function Header() {
               >
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">View notifications</span>
-                <BellIcon className="h-6 w-6" aria-hidden="true" />
+                <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
               </button>
-              <Link to={`/Cart`}>
+              <Link to={`/cart`}>
                 <button
                   type="button"
                   className="relative rounded-full flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Cart</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
+                  <HiShoppingCart className="h-6 w-6 me-1" />
                   {addToCart.length}
                 </button>
               </Link>
@@ -111,7 +95,7 @@ export default function Header() {
                   onClick={signOutWithFirebase}
                   className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"
                 >
-                  <UserIcon className="h-6 w-6 me-1" />
+                  <HiUser className="h-6 w-6 me-1" />
                   <span>Sign Out</span>
                 </Link>
               ) : (
@@ -119,7 +103,7 @@ export default function Header() {
                   to="/signin"
                   className="flex bg-gray-800 p-1 mr-3 text-gray-400 hover:text-white"
                 >
-                  <UserIcon className="h-6 w-6 me-1" />
+                  <HiUser className="h-6 w-6 me-1" />
                   <span>Sign In</span>
                 </Link>
               )}
@@ -192,18 +176,6 @@ export default function Header() {
             </div>
           </div>
         </div>
-
-        <Disclosure as="nav" className="bg-gray-800">
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigationRoutes.map((item) => (
-                <Disclosure.Button key={item.name} as="a" href={item.href}>
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-            </div>
-          </Disclosure.Panel>
-        </Disclosure>
       </>
       <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (

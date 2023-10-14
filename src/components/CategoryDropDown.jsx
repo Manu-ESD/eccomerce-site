@@ -1,26 +1,38 @@
+import { Fragment } from "react";
 import { headerFormatter } from "../utility/utils";
+import { Menu, Transition } from "@headlessui/react";
 
 const CategoryDropDown = ({handleCategory, category, subCategory }) => {
     
   return (
-    <div className="dropdown dropdown-bottom flex justify-center items-center">
-      <label
-        tabIndex={0}
-        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 text-sm font-medium"
-      >
+    <Menu as="div" className="text-xl relative px-3">
+      <Menu.Button className="text-sm text-white focus:outline-none font-semibold hover:text-gray-200">
         {headerFormatter(category)}
-      </label>
-      <ul
-        tabIndex={0}
-        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 w-52"
+      </Menu.Button>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
       >
-        {subCategory.map((item) => (
-          <li value={item} key={item} onClick={()=>handleCategory(category,item)}>
-            <a>{headerFormatter(item)}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg focus:outline-none">
+          {subCategory.map((item) => (
+            <Menu.Item
+              value={item}
+              key={item}
+              onClick={() => handleCategory(category, item)}
+            >
+              <div className={"block px-4 py-2 text-sm text-gray-700"}>
+                {headerFormatter(item)}
+              </div>
+            </Menu.Item>
+          ))}
+        </Menu.Items>
+      </Transition>
+    </Menu>
   );
 };
 

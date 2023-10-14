@@ -1,5 +1,4 @@
-import React from 'react';
-import { StarIcon } from "@heroicons/react/24/outline";
+import { HiOutlineStar } from "react-icons/hi";
 
 const StarRatingsComponent = ({ totalStars = 5, ratings }) => {
   const filledStars = Math.floor(ratings);
@@ -14,7 +13,7 @@ const StarRatingsComponent = ({ totalStars = 5, ratings }) => {
           const isFilled = index < filledStars || (index === filledStars && hasHalfStar);
 
           return (
-            <StarIcon
+            <HiOutlineStar
               key={index}
               width={18}
               fill={isFilled ? "#FFA41D" : "none"}
