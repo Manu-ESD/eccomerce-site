@@ -7,6 +7,9 @@ import { updateAddToCart } from "../features/cartSlice";
 import ReactImageZoom from "react-image-zoom";
 import { useSearchParams } from "react-router-dom";
 import { getProductById } from "../utility/utils";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../service";
+import { v4 as uuidv4 } from "uuid";
 
 const ProductPage = () => {
   const [searchParams] = useSearchParams();
