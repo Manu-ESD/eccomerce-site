@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { updateSearchValue } from "../features/searchValueSlice";
 import { getDataFromFirebase } from "../utility/utils";
 import { useEffect } from "react";
-import { getProductsParams,postDataToFirebase } from "../utility/utils";
+import { getProductsParams } from "../utility/utils";
 import { navigationRoutes } from "../utility/constants";
 import { updateProductsData } from "../features/productsSlice";
 import SearchComponent from "./SearchComponent";
@@ -19,6 +19,7 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const authData = useSelector((state) => state.authData);
@@ -48,19 +49,6 @@ export default function Header() {
         console.error(err);
       });
   }, []);
-
-  useEffect(() => {
-    addToCart.forEach(async (element) => {
-      postDataToFirebase({
-        collectionName:"cart",
-        dataToOperate:{ ...element },
-        id:`cart-${element.id}`,
-        operation:"add"
-      });
-    });
-  }, [addToCart]);
-
-  const dispatch = useDispatch();
 
   const handleSearch = () => {
     dispatch(updateSearchValue(searchValue));

@@ -1,13 +1,40 @@
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import ProductInCartCard from "./ProductInCartCard";
+import { getDataFromFirebase,postDataToFirebase } from "../utility/utils";
+import { updateAddToCart } from "../features/cartSlice";
+import { useDispatch } from "react-redux";
 
 export const Cart = () => {
+  const dispatch = useDispatch();
   const addToCart = useSelector((state) => state.addToCart.value);
   const [totalPrice, setTotalPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [coupons, setCoupons] = useState(0);
+
+  useEffect(() => {
+    if(addToCart && addToCart.length){
+      addToCart.forEach(async (element) => {
+        postDataToFirebase({
+          collectionName:"cart",
+          dataToOperate:{ ...element },
+          id:`cart-${element.id}`,
+          operation:"add"
+        });
+      });
+    }else{
+      getDataFromFirebase("cart")
+      .then((data) => {
+        dispatch(updateAddToCart(data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    }
+
+  }, [addToCart,dispatch]);
 
   useEffect(() => {
     const price = addToCart.reduce((total, item) => {

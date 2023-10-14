@@ -2,9 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
 import StarRatingsComponent from "../components/StarRatingsComponent";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../service";
+import { useState } from "react";
 import { postDataToFirebase } from "../utility/utils";
 
 const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
@@ -22,12 +20,15 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
       id:`cart-${id}`,
       operation:"delete"
     });
+    dispatch(updateAddToCart(addToCart.filter(cartData=>cartData.id!==id)));
     }else{
+
     /**
-     * When working with nested objects or arrays in Redux, making a deep copy becomes crucial to avoid unintentional mutations.
-     * If you directly modify a nested property of an object in the Redux state.
-     * It can lead to unexpected behavior and make it difficult to track changes.
+     * * When working with nested objects or arrays in Redux, making a deep copy becomes crucial to avoid unintentional mutations.
+     * * If you directly modify a nested property of an object in the Redux state.
+     * * It can lead to unexpected behavior and make it difficult to track changes.
      */
+
       const cartData = JSON.parse(JSON.stringify(addToCart));
       const dataToUpdate = cartData.filter((cartItem) => cartItem.id === id)[0];
       dataToUpdate.orderQty = orderQty;
@@ -110,18 +111,9 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
             <AiOutlinePlus />
           </button>
         </div>
-        {/* <p
-          className="font-medium mr-6 ml-3 hover:text-blue-600"
-          onClick={handleSaveForLater}
-        >
-          SAVE FOR LATER
-        </p> */}
         <p
           className="font-medium hover:text-blue-600 ml-3"
-          onClick={() => {
-            setshowRemoveAlert(true);
-          }}
-        >
+          onClick={() => handleCartUpdate({operation:"delete"})}>
           REMOVE
         </p>
       </div>
