@@ -52,13 +52,26 @@ export const getProductById = (collectionName, documentID) => {
     });
 };
 
-export const getFiltersParams = (productsData) => {
+export const getProductsParams = (productsData) => {
+  const uniqueValues = (arr) => [...new Set(arr)];
+
   const brands = [];
   const price = [];
   const ratings = [];
   const stock = [];
   const discount = [];
   const category = [];
+  const subCategory = [];
+  const categories = {
+    "clothing": [],
+    "electronics": [],
+    "cosmetics": [],
+    "personal-care": [],
+    "home-needs": [],
+    "fashion": [],
+    "jewelry": [],
+    "footwear": []
+  };
 
   productsData.forEach((product) => {
     brands.push(product.brand);
@@ -67,17 +80,26 @@ export const getFiltersParams = (productsData) => {
     stock.push(product.stock);
     discount.push(product.discountPercentage);
     category.push(product.category);
+    subCategory.push(product["sub-category"]);
+    categories[product.category].push(product["sub-category"]);
   });
 
+  for (const category in categories) {
+    categories[category] = uniqueValues(categories[category]);
+  }
+
   return {
-    brands: [...new Set(brands)],
-    price: [...new Set(price)],
-    ratings: [...new Set(ratings)],
-    stock: [...new Set(stock)],
-    discount: [...new Set(discount)],
-    category: [...new Set(category)],
+    brands: uniqueValues(brands),
+    price: uniqueValues(price),
+    ratings: uniqueValues(ratings),
+    stock: uniqueValues(stock),
+    discount: uniqueValues(discount),
+    category: uniqueValues(category),
+    subCategory: uniqueValues(subCategory),
+    categories
   };
 };
+
 
 export const signUpHandler = (email, password) => {
   createUserWithEmailAndPassword(auth, email, password)

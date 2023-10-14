@@ -1,7 +1,5 @@
 import Home from "./pages/Home";
 import Products from "./pages/Products";
-import Offers from "./pages/Offers";
-import About from "./pages/About";
 import NoPage from "./pages/NoPage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -31,8 +29,6 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/view" element={<ProductPage />} />
-            <Route path="/offers" element={<Offers />} />
-            <Route path="/about" element={<About />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
