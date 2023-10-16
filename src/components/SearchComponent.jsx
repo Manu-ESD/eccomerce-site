@@ -6,9 +6,9 @@ const SearchComponent = ({
     handleSearch
 }) => {
   return (
-    <div className="flex flex-row items-center bg-orange-500">
+    <div className="flex flex-row items-center bg-orange-500 w-[30rem] rounded-lg">
     <input
-      className="w-[300px] p-1"
+      className="w-full p-1.5 rounded-l-lg"
       type="text"
       placeholder="Search Product here"
       name="inputSearchValue"
@@ -18,7 +18,7 @@ const SearchComponent = ({
       }}
     ></input>
     <BiSearch
-      className="w-[30px] text-black hover:text-white"
+      className="w-[40px] text-black hover:text-white rounded-r-lg"
       onClick={handleSearch}
     ></BiSearch>
   </div>
