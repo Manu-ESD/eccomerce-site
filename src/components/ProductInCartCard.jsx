@@ -13,7 +13,6 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
   const [orderQty,setOrderQty] = useState(product.orderQty);
 
   const handleCartUpdate = ({ operation, id,orderQty }) => {
-    
     if(operation === "delete"){
       postDataToFirebase({
       collectionName:"cart",
@@ -22,7 +21,6 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
     });
     dispatch(updateAddToCart(addToCart.filter(cartData=>cartData.id!==id)));
     }else{
-
     /**
      * * When working with nested objects or arrays in Redux, making a deep copy becomes crucial to avoid unintentional mutations.
      * * If you directly modify a nested property of an object in the Redux state.
@@ -113,7 +111,7 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
         </div>
         <p
           className="font-medium hover:text-blue-600 ml-3"
-          onClick={() => handleCartUpdate({operation:"delete"})}>
+          onClick={() => handleCartUpdate({operation:"delete",id:product.id})}>
           REMOVE
         </p>
       </div>
