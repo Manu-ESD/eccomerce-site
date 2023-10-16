@@ -180,8 +180,7 @@ export default function Header() {
           </div>
         </div>
       </>
-      <Disclosure as="nav" className="bg-gray-800">
-      <>
+      <nav className="flex bg-gray-900">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 md:px-8">
               <div className="relative flex h-10 items-center justify-between">
                 <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
@@ -197,7 +196,7 @@ export default function Header() {
                 </div>
               </div>
             </div>
-
+            <Disclosure>
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
                 {navigationRoutes.map((item) => (
@@ -218,8 +217,8 @@ export default function Header() {
                 ))}
               </div>
             </Disclosure.Panel>
-          </>
-      </Disclosure>
+            </Disclosure>
+      </nav>
     </>
   );
 }
