@@ -47,7 +47,7 @@ const Cart = () => {
     <Layout>
       <div className="h-screen container mx-auto my-4 w-full px-5 mx-auto justify-center grid grid-cols-3 gap-4">
           <div className="overflow-y-scroll no-scrollbar shadow-lg border border-[#CFD2CF] h-[90vh] col-span-2">
-          <div className="bg-white w-full shadow-md border-t-1 border-[#CFD2CF] h-[80px] mt-3 flex flex-row justify-end items-center">
+          <div className="bg-white w-full shadow-md border-t-1 border-[#CFD2CF] h-[80px] flex flex-row justify-end items-center">
             <div className="border border-[#CFD2CF] me-3 rounded-sm">
             <input placeholder="Enter Delivery Pincode" className="input w-[10]px focus:outline-none" id="zip" name="zip" type="text"/>
             <button className="btn btn-md bg-orange-600 text-white font-bold m-0 rounded-none">
