@@ -63,13 +63,13 @@ const Cart = () => {
                 cardType="remove"
               />
             ))}
-          <div className="w-full shadow-lg border-t-1 border-[#CFD2CF] h-[80px] mt-3 flex flex-row justify-end items-center">
+          <div className="bg-white w-full shadow-md border-t-1 border-[#CFD2CF] h-[80px] mt-3 flex flex-row justify-end items-center sticky inset-0">
             <button className="btn btn-md rounded-none bg-orange-600 py-2 px-4 text-white font-bold me-4">
               Place Order
             </button>
           </div>
           </div>
-          <div className="w-[25vw] h-fit p-4 mt-4 shadow-md border border-[#CFD2CF]">
+          <div className="w-[25vw] h-fit p-4 shadow-md border border-[#CFD2CF]">
           <div className="flex flex-col">
             <h2 className="font-semibold">PRICE DETAILS</h2>
             <div className="flex flex-row justify-between items-center my-2">
