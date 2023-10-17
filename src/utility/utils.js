@@ -83,6 +83,12 @@ export const getProductById = (collectionName, documentID) => {
     });
 };
 
+const bestProductsCardData = (categories,category,productsData)=>{
+  return categories[category].map((subCategory)=>{
+    return productsData.filter(data=>data["sub-category"] === subCategory).sort((a,b)=>a.price-b.price)[0];
+  });
+}
+
 export const getProductsParams = (productsData) => {
   const uniqueValues = (arr) => [...new Set(arr)];
 
@@ -112,6 +118,7 @@ export const getProductsParams = (productsData) => {
     discount.push(product.discountPercentage);
     category.push(product.category);
     subCategory.push(product["sub-category"]);
+    
     if(product["sub-category"]?.length){
     categories[product.category].push(product["sub-category"]);
     }
@@ -121,6 +128,12 @@ export const getProductsParams = (productsData) => {
     categories[category] = uniqueValues(categories[category]);
   }
 
+  // ! Can be similarly calulated for other categories, if required...
+  const bestElectronics = bestProductsCardData(categories,"electronics",productsData);
+  const bestClothing = bestProductsCardData(categories,"clothing",productsData);
+
+
+
   return {
     brands: uniqueValues(brands),
     price: uniqueValues(price),
@@ -129,7 +142,9 @@ export const getProductsParams = (productsData) => {
     discount: uniqueValues(discount),
     category: uniqueValues(category),
     subCategory: uniqueValues(subCategory),
-    categories
+    categories,
+    bestElectronics,
+    bestClothing
   };
 };
 
