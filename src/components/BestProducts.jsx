@@ -26,7 +26,7 @@ const BestProducts = ({category}) => {
   };
 
   return (
-    <div className="h-screen mx-auto my-4 w-full h-[24rem] px-5 mx-auto shadow-lg border border-[#CFD2CF] relative">
+    <div className="mx-auto my-4 w-full h- h-[24rem] px-5 mx-auto shadow-lg border border-[#CFD2CF] relative">
         <h2 className="text-2xl font-bold mt-3">Best of {category}</h2>
         <button className="bg-gray-200 w-[2.5rem] h-[8rem] text-2xl absolute z-10 left-0 top-[30%]" onClick={handlePrevious}>❮</button>
         <button className="bg-gray-200 w-[2.5rem] h-[8rem] text-2xl absolute z-10 right-0 top-[30%]" onClick={handleNext}>❯</button>
