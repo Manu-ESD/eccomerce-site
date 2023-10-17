@@ -8,6 +8,8 @@ const Home = () => {
       <div className=" min-h-screen">
         <HomepageCarousel/>
         <BestProducts category="Electronics"/>
+        <BestProducts category="Clothing"/>
+
       </div>
     </Layout>
   );
