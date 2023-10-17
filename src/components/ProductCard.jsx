@@ -34,7 +34,7 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
             <img src={imgLink} alt="product-img" className="h-[130px]" />
           </figure>
           <span className="card-title text-sm font-bold">
-            {title.substring(0, 50)}...
+            {title.length > 50 ? `${title.substring(0, 50)}...` : title}
           </span>
           <div className="flex justify-center mt-3 items-center">
             <StarRatingsComponent ratings={rating} />
