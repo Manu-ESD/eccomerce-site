@@ -46,7 +46,7 @@ const Cart = () => {
     <Layout>
       {addToCart.length ? (
         <div className="h-screen container mx-auto my-4 w-full px-5 mx-auto justify-center grid grid-cols-3 gap-4">
-          <div className="overflow-y-scroll no-scrollbar shadow-lg border border-[#CFD2CF] h-[27rem] max-h-[90vh] col-span-2">
+          <div className="overflow-y-scroll no-scrollbar shadow-lg border border-[#CFD2CF] h-[84vh] col-span-2">
             <div
               className={`bg-white w-full shadow-md border-t-1 border-[#CFD2CF] h-[80px] flex flex-row justify-end items-center ${
                 addToCart.length === 0 ? "hidden" : "block"
