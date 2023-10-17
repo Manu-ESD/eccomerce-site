@@ -45,9 +45,8 @@ const Cart = () => {
 
   return (
     <Layout>
-      <div className="h-screen flex flex-row gap-4 my-4 w-full px-5 mx-auto justify-center">
-        <div className="w-[65vw]">
-          <div className="overflow-y-scroll	h-[90vh]">
+      <div className="h-screen container mx-auto my-4 w-full px-5 mx-auto justify-center grid grid-cols-3 gap-4">
+          <div className="overflow-y-scroll	h-[90vh] col-span-2">
             {addToCart.length === 0 && (
               <p className="text-center">CART IS EMPTY</p>
             )}
@@ -64,13 +63,12 @@ const Cart = () => {
               />
             ))}
           <div className="w-[] h-[80px] flex flex-row justify-end items-center">
-            <button className="bg-blue-950 py-2 px-4 mr-4 text-white">
+            <button className="bg-orange-600 py-2 px-4 text-white font-bold">
               Buy Now
             </button>
           </div>
           </div>
-        </div>
-        <div className="w-[25vw] h-fit p-4 shadow-md border border-[#CFD2CF]">
+          <div className="w-[25vw] h-fit p-4 mt-4 shadow-md border border-[#CFD2CF]">
           <div className="flex flex-col">
             <h2 className="font-semibold">PRICE DETAILS</h2>
             <div className="flex flex-row justify-between items-center my-2">
@@ -96,7 +94,7 @@ const Cart = () => {
             </div>
             <hr className=" h-1 text-black w-[100%] text-[2px]" />
           </div>
-        </div>
+          </div>
       </div>
     </Layout>
   );

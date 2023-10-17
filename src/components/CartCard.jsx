@@ -73,7 +73,7 @@ const CartCard = ({ imgLink, title, rating, price, product }) => {
   };
 
   return (
-    <div className="card w-[98%] h-[15rem] shadow-md rounded-none cursor-pointer flex flex-col justify-around mt-4 p-3 border border-[#CFD2CF]">
+    <div className="card w-[100%] h-[15rem] shadow-md rounded-none cursor-pointer flex flex-col justify-around mt-4 p-3 border border-[#CFD2CF]">
       <div className="w-[100%] h-[80%] flex flex-row ga-5">
         <figure className="w-[20%] ml-3 mt-5">
           <img src={imgLink} alt="product-img" className="h-[80%] mx-auto" />
