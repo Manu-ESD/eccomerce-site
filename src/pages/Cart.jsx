@@ -46,12 +46,13 @@ const Cart = () => {
   return (
     <Layout>
       <div className="h-screen container mx-auto my-4 w-full px-5 mx-auto justify-center grid grid-cols-3 gap-4">
-          <div className="overflow-y-scroll shadow-lg border border-[#CFD2CF] h-[90vh] col-span-2">
+          <div className="overflow-y-scroll no-scrollbar shadow-lg border border-[#CFD2CF] h-[90vh] col-span-2">
             {addToCart.length === 0 && (
               <p className="text-center">CART IS EMPTY</p>
             )}
-            {addToCart.map((item) => (
+            {addToCart.map((item,index) => (
               <CartCard
+                index={index}
                 key={item.id}
                 imgLink={item.image}
                 title={item.title}
@@ -63,8 +64,8 @@ const Cart = () => {
               />
             ))}
           <div className="w-full shadow-lg border-t-1 border-[#CFD2CF] h-[80px] mt-3 flex flex-row justify-end items-center">
-            <button className="bg-orange-600 py-2 px-4 text-white font-bold me-4">
-              Buy Now
+            <button className="btn btn-md rounded-none bg-orange-600 py-2 px-4 text-white font-bold me-4">
+              Place Order
             </button>
           </div>
           </div>
