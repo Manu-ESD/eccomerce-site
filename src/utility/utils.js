@@ -129,6 +129,9 @@ export const getProductsParams = (productsData) => {
   }
 
   // ! Can be similarly calulated for other categories, if required...
+  // TODO: @manohar, use this for the task i told you to use for home page for getting lowest price of every subcategory
+  // ! This code is not optimised you just try to optimise it, I have just written the logic for testing only, remaining 
+  // ! is your call
   const bestElectronics = bestProductsCardData(categories,"electronics",productsData);
   const bestClothing = bestProductsCardData(categories,"clothing",productsData);
 
