@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 const BestProducts = ({category}) => {
   const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  //TODO: @manohar : this products data will be sub category data you have to show the lower price and image of every sub-category
+  // TODO: Refer the screenshot i sent you in whats of flipkart 
   const productsData = useSelector((state) => state.productsData.value)?.filter((data)=>data?.category === category?.toLowerCase());
 
   const scrollToElement = (index) => {
