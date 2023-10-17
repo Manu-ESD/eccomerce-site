@@ -26,7 +26,7 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
   return (
     <>
       <div
-        className="card w-64 max-h-[20rem] shadow-lg bg-base-100 rounded-none cursor-pointer"
+        className="card w-64 h-72 shadow-lg bg-base-100 rounded-none cursor-pointer"
         onClick={() => handleProductView(product, cardType)}
       >
         <div className="card-body">
