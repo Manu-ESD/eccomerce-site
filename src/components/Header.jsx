@@ -57,7 +57,7 @@ export default function Header() {
   return (
     <>
       <>
-        <div className="w-full px-2 sm:px-6 md:px-8 bg-gray-800 sticky inset-0 z-10">
+        <div className="w-full px-2 sm:px-6 md:px-8 bg-gray-800 sticky inset-0 z-20">
           <div className="relative flex h-16 items-center justify-between">
             <Link to="/" className="logo font-mono text-white text-4xl">
             <HiShoppingCart className="h-[2.5rem] w-[2.5rem] me-1" />
