@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { updateAddToCart } from "../features/cartSlice";
-import StarRatingsComponent from "../components/StarRatingsComponent";
+import StarRatingsComponent from "./StarRatingsComponent";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useState } from "react";
 import { postDataToFirebase } from "../utility/utils";
 
-const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
+const CartCard = ({ imgLink, title, rating, price, product }) => {
   const dispatch = useDispatch();
   const addToCart = useSelector((state) => state.addToCart.value);
   const [showRemoveAlert, setshowRemoveAlert] = useState(false);
@@ -73,7 +73,7 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
   };
 
   return (
-    <div className="w-[100%] h-[15rem] shadow-grey rounded-none cursor-pointer flex flex-col justify-around mt-4">
+    <div className="card w-[98%] h-[15rem] shadow-md rounded-none cursor-pointer flex flex-col justify-around mt-4 p-3 border border-[#CFD2CF]">
       <div className="w-[100%] h-[80%] flex flex-row ga-5">
         <figure className="w-[20%] ml-3 mt-5">
           <img src={imgLink} alt="product-img" className="h-[80%] mx-auto" />
@@ -174,4 +174,4 @@ const ProductInCartCard = ({ imgLink, title, rating, price, product }) => {
   );
 };
 
-export default ProductInCartCard;
+export default CartCard;
