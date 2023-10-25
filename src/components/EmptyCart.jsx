@@ -1,12 +1,12 @@
 import { GiShoppingCart } from "react-icons/gi";
 
 const EmptyCart = () => {
-    return (
-        <div className='grid justify-center text-[#9CA3AF] w-[88vw] h-[38vh] shadow-md border border-[#CFD2CF] m-6'>
-            <GiShoppingCart className="h-[13rem] w-[13rem] ml-10" />
-            <div className="text-center text-5xl font-bold">CART IS EMPTY</div>
-        </div>
-    )
-}
+  return (
+    <div className="text-[#9CA3AF] w-[90vw] shadow-md border border-[#CFD2CF] m-6 min-h-fit ">
+      <GiShoppingCart className="h-[13rem] w-[13rem] bg-white mx-auto" />
+      <div className="text-center text-5xl font-bold my-5">CART IS EMPTY</div>
+    </div>
+  );
+};
 
-export default EmptyCart
+export default EmptyCart;

@@ -2,37 +2,84 @@ import { Link } from "react-router-dom";
 import { FiAlertCircle } from "react-icons/fi";
 import { passwordReset } from "../utility/utils";
 import { useState } from "react";
+import Layout from "../components/Layout";
+import Toast from "../components/Toast";
 
 const ForgotPassword = () => {
   const [emailPasswordToBeReset, setEmailPasswordToBeReset] = useState("");
   const [emailMessage, setEmailMessage] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastProps, setToastProps] = useState({
+    message: "User not found, try again!",
+    status: "exclamation",
+    loading: false,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await passwordReset(emailPasswordToBeReset);
-      setEmailMessage(true);
+      if (
+        emailPasswordToBeReset.length < 1 ||
+        !emailPasswordToBeReset.includes("@")
+      ) {
+        setToastProps({
+          message: "Please Enter Valid Mail id",
+          status: "exclamation",
+          loading: false,
+        });
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 2500);
+      } else {
+        await passwordReset(emailPasswordToBeReset);
+        setToastProps({
+          message: "Password Reset Mail Sent Successfully!",
+          status: "success",
+          loading: true,
+        });
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 2500);
+        setEmailMessage(true);
+      }
     } catch (error) {
       if (error.code === "auth/user-not-found") {
-        alert("User not found, try again!");
+        setToastProps({
+          message: "User not found, try again!",
+          status: "failure",
+          loading: false,
+        });
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 2500);
         setEmailPasswordToBeReset("");
       }
     }
   };
 
   return (
-    <>
-      <section className="flex justify-center items-center h-screen bg-gray-100">
+    <Layout>
+      {showToast && (
+        <Toast
+          text={toastProps.message}
+          status={toastProps.status}
+          loading={toastProps.loading}
+        ></Toast>
+      )}
+      <section className="flex justify-center items-center w-screen bg-gray-100 h-[80vh]">
         <div className="max-w-md w-full">
           {emailMessage ? (
-            <div className="max-w-md w-full bg-white rounded p-6 space-y-4">
-              <h3>The Email has been sent; Check your Inbox!</h3>
+            <div className="max-w-md w-full bg-white rounded p-6 space-y-4 text-center">
+              <h3>The Email has been sent. Please check your Inbox!</h3>
             </div>
           ) : (
             <>
               <Link
-                className="block text-sm text-blue-600 hover:underline mb-1"
+                className="block text-sm text-blue-600 font-medium cursor-pointer mb-1"
                 to="/signin"
               >
                 {" "}
@@ -58,7 +105,8 @@ const ForgotPassword = () => {
                     className="w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
                     type="email"
                     placeholder="Email"
-                    onChange={(e)=>setEmailPasswordToBeReset(e.target.value)}
+                    required
+                    onChange={(e) => setEmailPasswordToBeReset(e.target.value)}
                   />
                 </div>
                 <div>
@@ -74,7 +122,7 @@ const ForgotPassword = () => {
           )}
         </div>
       </section>
-    </>
+    </Layout>
   );
 };
 

@@ -1,13 +1,12 @@
 //TODO: get images from db itself using blob storage, don't store in bundle
 import { useState } from "react";
-import car1 from "../assets/car-01.jpg";
 import car2 from "../assets/car-02.jpg";
 import car3 from "../assets/car-03.jpg";
 import car4 from "../assets/car-04.jpg";
 import car5 from "../assets/car-05.jpg";
 
 const HomepageCarousel = () => {
-  const carImages = [car1, car2, car3, car4, car5];
+  const carImages = [car3, car2, car3, car4, car5];
   const [activeCarousel, setActiveCarousel] = useState(0);
   const allCarousels = () => {
     return (

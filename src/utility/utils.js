@@ -1,4 +1,11 @@
-import { collection, getDocs, doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,24 +13,24 @@ import {
   sendPasswordResetEmail,
   confirmPasswordReset,
   deleteUser,
+  updateProfile,
 } from "firebase/auth";
 import { db, auth } from "../service";
 import { v4 as uuidv4 } from "uuid";
 import store from "../store";
 import { signOff } from "../features/authSlice";
 
-
 export const titleCase = (s) =>
-    s
-        ? s.replace(/^_*(.)|_+(.)/g, (_, c, d) =>
-            c ? c.toUpperCase() : " " + d.toUpperCase()
-        )
-        : s;
+  s
+    ? s.replace(/^_*(.)|_+(.)/g, (_, c, d) =>
+        c ? c.toUpperCase() : " " + d.toUpperCase()
+      )
+    : s;
 
-export const headerFormatter = (title)=>{
+export const headerFormatter = (title) => {
   const headerParam = title?.split("-").join(" ");
   return titleCase(headerParam);
-}
+};
 
 export const getDataFromFirebase = async (collectionName) => {
   try {
@@ -83,11 +90,13 @@ export const getProductById = (collectionName, documentID) => {
     });
 };
 
-const bestProductsCardData = (categories,category,productsData)=>{
-  return categories[category].map((subCategory)=>{
-    return productsData.filter(data=>data["sub-category"] === subCategory).sort((a,b)=>a.price-b.price)[0];
+const bestProductsCardData = (categories, category, productsData) => {
+  return categories[category].map((subCategory) => {
+    return productsData
+      .filter((data) => data["sub-category"] === subCategory)
+      .sort((a, b) => a.price - b.price)[0];
   });
-}
+};
 
 export const getProductsParams = (productsData) => {
   const uniqueValues = (arr) => [...new Set(arr)];
@@ -100,14 +109,14 @@ export const getProductsParams = (productsData) => {
   const category = [];
   const subCategory = [];
   const categories = {
-    "clothing": [],
-    "electronics": [],
-    "cosmetics": [],
+    clothing: [],
+    electronics: [],
+    cosmetics: [],
     "personal-care": [],
     "home-needs": [],
-    "fashion": [],
-    "jewelry": [],
-    "footwear": []
+    fashion: [],
+    jewelry: [],
+    footwear: [],
   };
 
   productsData.forEach((product) => {
@@ -118,9 +127,9 @@ export const getProductsParams = (productsData) => {
     discount.push(product.discountPercentage);
     category.push(product.category);
     subCategory.push(product["sub-category"]);
-    
-    if(product["sub-category"]?.length){
-    categories[product.category].push(product["sub-category"]);
+
+    if (product["sub-category"]?.length) {
+      categories[product.category].push(product["sub-category"]);
     }
   });
 
@@ -130,12 +139,18 @@ export const getProductsParams = (productsData) => {
 
   // ! Can be similarly calulated for other categories, if required...
   // TODO: @manohar, use this for the task i told you to use for home page for getting lowest price of every subcategory
-  // ! This code is not optimised you just try to optimise it, I have just written the logic for testing only, remaining 
+  // ! This code is not optimised you just try to optimise it, I have just written the logic for testing only, remaining
   // ! is your call
-  const bestElectronics = bestProductsCardData(categories,"electronics",productsData);
-  const bestClothing = bestProductsCardData(categories,"clothing",productsData);
-
-
+  const bestElectronics = bestProductsCardData(
+    categories,
+    "electronics",
+    productsData
+  );
+  const bestClothing = bestProductsCardData(
+    categories,
+    "clothing",
+    productsData
+  );
 
   return {
     brands: uniqueValues(brands),
@@ -147,10 +162,9 @@ export const getProductsParams = (productsData) => {
     subCategory: uniqueValues(subCategory),
     categories,
     bestElectronics,
-    bestClothing
+    bestClothing,
   };
 };
-
 
 export const signUpHandler = (email, password) => {
   createUserWithEmailAndPassword(auth, email, password)
@@ -163,11 +177,14 @@ export const signUpHandler = (email, password) => {
     });
 };
 
-export const signInHandler = ({ email, password }) =>
-  signInWithEmailAndPassword(auth, email, password);
+export const signInHandler = ({ email, password }) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
 
-export const signUpWithFirebase = ({ email, password }) =>
-  createUserWithEmailAndPassword(auth, email, password);
+export const signUpWithFirebase = (email, password) => {
+  console.log(email, password);
+  return createUserWithEmailAndPassword(auth, email, password);
+};
 
 export const signOutWithFirebase = () => {
   signOut(auth);
@@ -195,6 +212,24 @@ export const deleteUserFromFirebase = () => {
       console.log("Account deleted successfully");
     })
     .catch((error) => {
-      console.err(error);
+      console.error(error);
+    });
+};
+
+export const updateUserFromFirebase = (firstName, lastName, userPhotoUrl) => {
+  updateProfile(auth.currentUser, {
+    displayName: firstName + " " + lastName,
+    photoURL: userPhotoUrl,
+  })
+    .then((res) => {
+      if (!res) {
+        throw new Error(
+          "Unable to update your account. Please try after sometime !!"
+        );
+      }
+      console.log("Account updated successfully");
+    })
+    .catch((error) => {
+      console.error(error);
     });
 };
