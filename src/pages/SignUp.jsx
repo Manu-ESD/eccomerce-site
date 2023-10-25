@@ -143,6 +143,7 @@ const SignUp = () => {
           text={toastProps.message}
           status={toastProps.status}
           loading={toastProps.loading}
+          requireConfirm={false}
         ></Toast>
       )}
       <section className="flex justify-center items-center h-[130vh] w-screen bg-gray-100">

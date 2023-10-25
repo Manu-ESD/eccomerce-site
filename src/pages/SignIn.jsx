@@ -97,6 +97,7 @@ const SignIn = () => {
           text={toastProps.message}
           status={toastProps.status}
           loading={toastProps.loading}
+          requireConfirm={false}
         ></Toast>
       )}
       <section className="flex justify-center items-center h-[80vh] w-screen bg-gray-100">

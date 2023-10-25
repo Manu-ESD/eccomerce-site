@@ -7,13 +7,20 @@ import { updateAddToCart } from "../features/cartSlice";
 import ReactImageZoom from "react-image-zoom";
 import { useSearchParams } from "react-router-dom";
 import { getProductById } from "../utility/utils";
+import Toast from "../components/Toast";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [productData, setProductData] = useState([]);
   const addToCart = useSelector((state) => state.addToCart.value);
-  const [showAlert, setshowAlert] = useState(false);
+  const [showToast, setshowToast] = useState(false);
+
+  const [toastProps, setToastProps] = useState({
+    message: "Item already added !",
+    status: "exclamation",
+    loading: false,
+  });
 
   useEffect(() => {
     getProductById("products", `product-${searchParams.get("id")}`).then(
@@ -33,9 +40,9 @@ const ProductPage = () => {
       const productInCart = { ...productData, orderQty: 1 };
       dispatch(updateAddToCart([...addToCart, productInCart]));
     } else {
-      setshowAlert(true);
+      setshowToast(true);
       setTimeout(() => {
-        setshowAlert(false);
+        setshowToast(false);
       }, 1500);
     }
   };
@@ -44,6 +51,14 @@ const ProductPage = () => {
 
   return (
     <Layout>
+      {showToast && (
+        <Toast
+          text={toastProps.message}
+          status={toastProps.status}
+          loading={toastProps.loading}
+          requireConfirm={false}
+        ></Toast>
+      )}
       {Object.keys(productData).length === 0 ? (
         <div className="min-h-screen w-[100vw] flex flex-row justify-center items-start p-10">
           <ShimmerContentBlock
@@ -90,27 +105,6 @@ const ProductPage = () => {
             <h3 className="text-[1.4rem] font-bold">₹{productData.price}</h3>
             <StarRatingsComponent ratings={productData.rating.rate} />
           </div>
-
-          {/* //Alert  */}
-          {showAlert ? (
-            <div className="alert absolute w-[30%] border-2 border-black top-[50px]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="stroke-info shrink-0 w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-
-              <span>Item already Added !</span>
-            </div>
-          ) : null}
         </div>
       )}
     </Layout>
