@@ -119,7 +119,7 @@ const SignIn = () => {
                   to="/signup"
                 >
                   {" "}
-                  New to ESHOP? Create an account
+                  Create an account
                 </Link>
               </div>
             </div>
