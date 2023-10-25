@@ -4,7 +4,14 @@ import {
   AiFillExclamationCircle,
 } from "react-icons/ai";
 
-const Toast = ({ text, status, loading, requireConfirm, toastControl }) => {
+const Toast = ({
+  text,
+  status,
+  loading,
+  requireConfirm,
+  setShowToast,
+  confirmDelete,
+}) => {
   return (
     <>
       {requireConfirm && (
@@ -27,13 +34,18 @@ const Toast = ({ text, status, loading, requireConfirm, toastControl }) => {
           )}
           {requireConfirm && (
             <div className="text-[12px] flex justify-center items-center gap-3 font-medium relative z-[]">
-              <button className="text-[#2ca02c]" onClick={() => {}}>
+              <button
+                className="text-[#2ca02c]"
+                onClick={() => {
+                  confirmDelete();
+                }}
+              >
                 Confirm
               </button>
               <button
                 className="text-[#d23737]"
                 onClick={() => {
-                  toastControl;
+                  setShowToast(false);
                 }}
               >
                 Cancel

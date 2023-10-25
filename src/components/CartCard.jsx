@@ -113,6 +113,10 @@ const CartCard = ({ imgLink, title, rating, price, product }) => {
           status={toastProps.status}
           loading={toastProps.loading}
           requireConfirm={toastProps.requireConfirm}
+          setShowToast={toastProps.setShowToast}
+          confirmDelete={() =>
+            handleCartUpdate({ operation: "confirmDelete", id: product.id })
+          }
         ></Toast>
       )}
       <div className="card w-[100%] h-[15rem] shadow-md rounded-none cursor-pointer flex flex-col justify-around mt-4 p-3 border border-[#CFD2CF]">
