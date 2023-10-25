@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import StarRatingsComponent from "../components/StarRatingsComponent";
-import { useNavigate,createSearchParams } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import { updateProductViewId } from "../features/productViewSlice";
 
 const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
@@ -26,20 +26,40 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
   return (
     <>
       <div
-        className="card w-64 h-72 shadow-lg bg-base-100 rounded-none cursor-pointer"
+        className={`card w-[16rem] h-72 shadow-lg bg-base-100 cursor-pointer ${
+          cardType === "display" && "border border-grey-400 rounded-[0.5rem]"
+        }`}
         onClick={() => handleProductView(product, cardType)}
       >
-        <div className="card-body">
+        <div className="card-body w-[16rem]">
           <figure>
             <img src={imgLink} alt="product-img" className="h-[130px]" />
           </figure>
-          <span className="card-title text-sm font-bold">
-            {title.length > 50 ? `${title.substring(0, 50)}...` : title}
-          </span>
-          <div className="flex justify-center mt-3 items-center">
-            <StarRatingsComponent ratings={rating} />
-            <span className="flex text-sm font-bold ml-3">Price:${price}</span>
-          </div>
+          {cardType !== "display" ? (
+            <div className="flex justify-center items-center flex-col absolute bottom-5 w-[14rem] left-[1rem] right-0">
+              <span className="card-title text-sm font-bold text-center ">
+                {title.length > 50 ? `${title.substring(0, 50)}...` : title}
+              </span>
+              <div className="flex justify-center mt-3 items-center">
+                <StarRatingsComponent ratings={rating} />
+
+                <span className="flex text-sm font-bold ml-3">
+                  Price:${price}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center flex-col absolute bottom-5 w-[14rem] left-[1rem] right-0">
+              <span className="card-title text-sm font-bold text-center ">
+                Best of {product["sub-category"]}
+              </span>
+              <div className="flex justify-center mt-3 items-center">
+                <span className="flex text-sm font-bold ml-3">
+                  Price:${price}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
