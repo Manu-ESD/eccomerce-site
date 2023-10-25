@@ -50,12 +50,12 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
             </div>
           ) : (
             <div className="flex justify-center items-center flex-col absolute bottom-5 w-[14rem] left-[1rem] right-0">
-              <span className="card-title text-sm font-bold text-center ">
+              <span className="card-title text-[16px] font-bold text-center ">
                 Best of {product["sub-category"]}
               </span>
               <div className="flex justify-center mt-3 items-center">
-                <span className="flex text-sm font-bold ml-3">
-                  Price:${price}
+                <span className="flex text-sm font-medium ml-3">
+                  Price range starts at ${price}
                 </span>
               </div>
             </div>
