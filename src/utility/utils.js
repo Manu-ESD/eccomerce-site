@@ -15,10 +15,18 @@ import {
   deleteUser,
   updateProfile,
 } from "firebase/auth";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+} from "firebase/storage";
 import { db, auth } from "../service";
 import { v4 as uuidv4 } from "uuid";
 import store from "../store";
 import { signOff } from "../features/authSlice";
+import image1 from "../assets/car-02.jpg";
 
 export const titleCase = (s) =>
   s
@@ -232,4 +240,32 @@ export const updateUserFromFirebase = (firstName, lastName, userPhotoUrl) => {
     .catch((error) => {
       console.error(error);
     });
+};
+
+export const uploadfilestoFirbaseStorage = (imagefile, imagename) => {
+  const storage = getStorage();
+  const imagetoUploadRef = ref(storage, `CarouselHomePage/${imagename}`);
+  fetch(imagefile)
+    .then((response) => response.blob())
+    .then((blob) => {
+      // Upload the image blob to Firebase Storage
+      uploadBytes(imagetoUploadRef, blob).then((snapshot) => {
+        alert("Uploaded an image blob!");
+      });
+    })
+    .catch((error) => console.error(error));
+};
+
+export const getAllFilesFromFirebaseStorage = async () => {
+  const storage = getStorage();
+  const getimageRef = ref(storage, `CarouselHomePage/`);
+  let imageList = [];
+
+  const response = await listAll(getimageRef);
+  for (let item of response.items) {
+    const url = await getDownloadURL(item);
+    imageList.push(url);
+  }
+
+  return imageList;
 };

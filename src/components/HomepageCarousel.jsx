@@ -1,19 +1,32 @@
 //TODO: get images from db itself using blob storage, don't store in bundle
 import { useState } from "react";
-import car2 from "../assets/car-02.jpg";
-import car3 from "../assets/car-03.jpg";
-import car4 from "../assets/car-04.jpg";
-import car5 from "../assets/car-05.jpg";
+import { uploadfilestoFirbaseStorage } from "../utility/utils";
+import { getAllFilesFromFirebaseStorage } from "../utility/utils";
+import { useEffect } from "react";
 
 const HomepageCarousel = () => {
-  const carImages = [car3, car2, car3, car4, car5];
   const [activeCarousel, setActiveCarousel] = useState(0);
+
+  const [imageList, setImageList] = useState([]);
+
+  // Get the Images from Firebase Storage
+  useEffect(() => {
+    getAllFilesFromFirebaseStorage().then((res) => {
+      setImageList(res);
+    });
+  }, []);
+
+  // used to upload files to Firbase Storage
+  // useEffect(() => {
+  //   uploadfilestoFirbaseStorage(car5, "CAR5");
+  // }, []);
+
   const allCarousels = () => {
     return (
       <>
-        {carImages.map((carImage, index) => (
+        {imageList.map((url, index) => (
           <div className="carousel-item relative w-full" key={index}>
-            <img src={carImage} className="w-full" alt={`Car ${index + 1}`} />
+            <img src={url} className="w-full" alt={`Car ${index + 1}`} />
             <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
               <button
                 className="btn btn-circle text-black"
@@ -26,11 +39,12 @@ const HomepageCarousel = () => {
               <button
                 className="btn btn-circle text-black"
                 onClick={() =>
-                  setActiveCarousel((prev) =>
-                    prev === carImages.length - 1
-                      ? carImages.length - 1
-                      : prev + 1
-                  )
+                  setActiveCarousel((prev) => {
+                    // console.log(imageList.length - 1, prev);
+                    return prev === imageList.length - 1
+                      ? imageList.length - 1
+                      : prev + 1;
+                  })
                 }
               >
                 ❯
