@@ -1,26 +1,16 @@
-//TODO: get images from db itself using blob storage, don't store in bundle
-import { useState } from "react";
-import { uploadfilestoFirbaseStorage } from "../utility/utils";
-import { getAllFilesFromFirebaseStorage } from "../utility/utils";
-import { useEffect } from "react";
+import { useState,useEffect } from "react";
+import { uploadfilestoFirbaseStorage, getAllFilesFromFirebaseStorage } from "../utility/utils";
 import { ShimmerThumbnail } from "react-shimmer-effects-18";
 
 const HomepageCarousel = () => {
   const [activeCarousel, setActiveCarousel] = useState(0);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
   const [imageList, setImageList] = useState([]);
 
-  // Get the Images from Firebase Storage
   useEffect(() => {
     getAllFilesFromFirebaseStorage().then((res) => {
       setImageList(res);
     });
   }, []);
-
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
 
   // used to upload files to Firbase Storage
   // useEffect(() => {
@@ -31,16 +21,14 @@ const HomepageCarousel = () => {
     return (
       <div>
         {imageList.map((url, index) => (
-          <div className="carousel-item relative w-full" key={index}>
+          <div className="carousel-item relative w-full" key={url}>
             <img src={url} className="w-full" alt={`Car ${index + 1}`} />
-      
-            
             <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
               <button
                 className="btn btn-circle text-black"
                 onClick={() =>
-                  setActiveCarousel((prev) =>{setImageLoaded(false);
-                   return(prev >= 1 ? prev - 1 : prev)})
+                  setActiveCarousel((prev) =>
+                   (prev >= 1 ? prev - 1 : prev))
                 }
               >
                 ❮
@@ -49,8 +37,6 @@ const HomepageCarousel = () => {
                 className="btn btn-circle text-black"
                 onClick={() =>
                   setActiveCarousel((prev) => {
-                    // console.log(imageList.length - 1, prev);
-                    setImageLoaded(false);
                     return prev === imageList.length - 1
                       ? imageList.length - 1
                       : prev + 1;
