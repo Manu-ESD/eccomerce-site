@@ -5,7 +5,7 @@ import BestProducts from "../components/BestProducts";
 const Home = () => {
   return (
     <Layout>
-      <div className=" min-h-screen">
+      <div className="min-h-screen">
         <HomepageCarousel/>
         <BestProducts category="Electronics" key="electronics"/>
         <BestProducts category="Clothing" key="clothing"/>
