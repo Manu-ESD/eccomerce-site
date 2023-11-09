@@ -24,12 +24,11 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
   };
 
   return (
-    <>
-      <div
-        className={`card w-[16rem] h-72 shadow-lg bg-base-100 cursor-pointer ${
-          cardType === "display" && "border border-grey-400 rounded-[0.5rem]"
+    <div
+        className={`card w-[16rem] h-72 shadow-lg bg-base-100 cursor-pointer rounded-none ${
+          cardType === "display" && "border border-grey-400"
         }`}
-        onClick={() => handleProductView(product, cardType)}
+        onClick={() => {handleProductView(product, cardType)}}
       >
         <div className="card-body w-[16rem]">
           <figure>
@@ -62,7 +61,6 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
           )}
         </div>
       </div>
-    </>
   );
 };
 

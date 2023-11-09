@@ -47,7 +47,7 @@ const ProductPage = () => {
     }
   };
 
-  const props = {width: 400, height: 200, zoomWidth: 250, img: productData.image };
+  const props = {height: 200, zoomWidth: 250, img: productData.image };
 
   return (
     <Layout>

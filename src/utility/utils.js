@@ -26,7 +26,6 @@ import { db, auth } from "../service";
 import { v4 as uuidv4 } from "uuid";
 import store from "../store";
 import { signOff } from "../features/authSlice";
-import image1 from "../assets/car-02.jpg";
 
 export const titleCase = (s) =>
   s

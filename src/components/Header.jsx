@@ -14,6 +14,7 @@ import { updateProductsData } from "../features/productsSlice";
 import SearchComponent from "./SearchComponent";
 import CategoryDropDown from "./CategoryDropDown";
 
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -67,7 +68,6 @@ export default function Header() {
 
   return (
     <>
-      <>
         <div className="w-full px-2 sm:px-6 md:px-8 bg-[#1f2937] sticky inset-0 z-20">
           <div className="relative flex h-16 items-center justify-between">
             <Link to="/" className="logo font-mono text-white text-4xl">
@@ -204,9 +204,8 @@ export default function Header() {
             </div>
           </div>
         </div>
-      </>
-      <nav className="flex bg-gray-900">
-        <div className="mx-auto max-w-7xl px-2 sm:px-6 md:px-8">
+      <nav className="flex bg-gray-900 ">
+        <div className="mx-auto  px-2 max-w-full">
           <div className="relative flex h-10 items-center justify-between">
             <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="hidden sm:ml-6 sm:block">

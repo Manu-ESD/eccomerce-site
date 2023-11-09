@@ -41,9 +41,14 @@ code {
 }
 
 .shimmer-thumbnail{
-  width: 100vw !important;
-  height: 24rem !important;
+  width: calc(100vw*0.995) !important;
+  height: calc(100vw*0.2807) !important;
 }
+
+.height-ratio{
+  height: calc(100vw*0.2807) !important;
+}
+
 
 // .js-image-zoom__zoomed-area{
 //   height: 30%  !important; 
