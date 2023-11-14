@@ -8,7 +8,7 @@ const Home = () => {
       <div className="min-h-screen">
         <HomepageCarousel/>
         <BestProducts category="Electronics" key="electronics"/>
-        <BestProducts category="Clothing" key="clothing"/>
+       
 
       </div>
     </Layout>

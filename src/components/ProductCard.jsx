@@ -13,7 +13,17 @@ const ProductCard = ({ imgLink, title, rating, price, product, cardType }) => {
 
   const handleProductView = (product, cardType) => {
     handleProductViewId(product);
-    if (cardType !== "remove") {
+    if (cardType === "display") {
+      navigate({
+        pathname: "/products",
+        search: createSearchParams({
+          category: product.category,
+          'sub-category': product['sub-category'],
+        }).toString(),
+      });
+    }
+    
+    else if (cardType !== "remove") {
       navigate({
         pathname: "/products/view",
         search: createSearchParams({
