@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
 import { useState } from "react";
+import { sortProducts, titleCase } from "../utility/utils";
 
-const FilterSelect = ({ filterName, filterOptions, filterFunction }) => {
+const FilterSelect = ({ filterName, filterOptions, products, sortingType }) => {
   const [selectedValue, setSelectedValue] = useState("none");
-
   const handleSelection = (event) => {
     setSelectedValue(event.target.value);
+    sortProducts(event.target.value, products, sortingType);
   };
-  useEffect(() => {
-    filterFunction(selectedValue);
-  }, [selectedValue]);
 
   return (
     <select
@@ -17,13 +14,13 @@ const FilterSelect = ({ filterName, filterOptions, filterFunction }) => {
       onChange={handleSelection}
       value={selectedValue}
     >
-      <option disabled selected value={"none"}>
+      <option disabled value={"none"}>
         {filterName}
       </option>
-      {filterOptions.map((item) => {
+      {filterOptions.map((item, index) => {
         return (
-          <option onSelect={handleSelection} value={item}>
-            {item}
+          <option key={`item-${index}`} onSelect={handleSelection} value={item}>
+            {`Sort by: ${titleCase(sortingType)}: ${item}`}
           </option>
         );
       })}

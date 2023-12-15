@@ -52,8 +52,10 @@ code {
 .w-calc-full {
   width: calc(100vw - 2 * 3.1rem); /* Subtract 2 times the padding */
 }
+
 .page-crumb-container {
   display:flex;
   align-items:center;
   justify-content:space-between;
+  width: 78vw;
 }

@@ -26,6 +26,8 @@ import { db, auth } from "../service";
 import { v4 as uuidv4 } from "uuid";
 import store from "../store";
 import { signOff } from "../features/authSlice";
+import { updateCurrentCategoryProducts } from "../features/productsSlice";
+import { commonSortOptions } from "./constants";
 
 export const titleCase = (s) =>
   s
@@ -268,3 +270,21 @@ export const getAllFilesFromFirebaseStorage = async () => {
 
   return imageList;
 };
+
+
+export function sortProducts(sortType, products, sortingType) {
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortingType === "price") {
+      return sortType === commonSortOptions[0] ? b.price - a.price : a.price - b.price;
+    }
+    
+    if (sortingType === "rating") {
+      return sortType === commonSortOptions[0] ? b.rating.rate - a.rating.rate : a.rating.rate - b.rating.rate;
+    }
+
+    return 0;
+  });
+
+  store.dispatch(updateCurrentCategoryProducts(sortedProducts));
+}
+

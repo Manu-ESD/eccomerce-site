@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { uploadfilestoFirbaseStorage, getAllFilesFromFirebaseStorage } from "../utility/utils";
+import { getAllFilesFromFirebaseStorage } from "../utility/utils";
 import { ShimmerThumbnail } from "react-shimmer-effects-18";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 

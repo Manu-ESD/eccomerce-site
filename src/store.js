@@ -4,7 +4,7 @@ import { productViewReducer } from "./features/productViewSlice";
 import { searchValueReducer } from "./features/searchValueSlice";
 import { authDataReducer } from "./features/authSlice";
 import { selectedCategoriesReducer } from "./features/selectedCategories";
-import { productsDataReducer } from "./features/productsSlice";
+import { productsDataReducer,currentCategoryProductsReducer } from "./features/productsSlice";
 import sessionStorage from "redux-persist/es/storage/session";
 import { persistReducer } from "redux-persist";
 
@@ -14,7 +14,8 @@ const rootReducer = combineReducers({
   searchValue: searchValueReducer,
   authData: authDataReducer,
   selectedCategories: selectedCategoriesReducer,
-  productsData:productsDataReducer
+  productsData:productsDataReducer,
+  currentCategoryProducts:currentCategoryProductsReducer
 });
 
 const persistConfig = {
@@ -23,7 +24,8 @@ const persistConfig = {
   storage: sessionStorage,
   blacklist: [
     "searchValue",
-    "productViewId"
+    "productViewId",
+    "currentCategoryProducts"
   ]
 }
 

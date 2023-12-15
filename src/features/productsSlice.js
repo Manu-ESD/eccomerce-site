@@ -10,5 +10,17 @@ export const productsDataSlice = createSlice({
   },
 });
 
+export const currentCategoryProductsSlice = createSlice({
+  name: "currentCategoryProducts",
+  initialState: { value: [] },
+  reducers: {
+    updateCurrentCategoryProducts: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+});
+
 export const { updateProductsData } = productsDataSlice.actions;
 export const productsDataReducer = productsDataSlice.reducer;
+export const { updateCurrentCategoryProducts } = currentCategoryProductsSlice.actions;
+export const currentCategoryProductsReducer = currentCategoryProductsSlice.reducer;
