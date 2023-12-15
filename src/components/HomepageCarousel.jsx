@@ -8,18 +8,13 @@ const HomepageCarousel = ({autoScroll=true, autoscrollduration=2000}) => {
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
-    console.log("effect called");
-  
     getAllFilesFromFirebaseStorage().then((res) => {
-      console.log("asd1", res.length - 1);
       setImageList([...res.map((s) => <img src={s} key={s} />)]);
     });
   
   }, []); 
 
   useEffect(() => {
-    console.log("asd2", imageList.length - 1);
-  
     if (autoScroll) {
       const slideInterval = setInterval(next, autoscrollduration);
       return () => clearInterval(slideInterval);

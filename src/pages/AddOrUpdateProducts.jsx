@@ -45,7 +45,7 @@ const AddOrUpdateProducts = () => {
       if (!response) {
         throw new Error("Unable to add product");
       }
-      console.log("Product Added Successfully");
+      
     } catch (err) {
       console.error(err);
     }

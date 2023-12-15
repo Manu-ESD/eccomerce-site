@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import StarRatingsComponent from "../components/StarRatingsComponent";
+import ReactImageZoom from "react-image-zoom";
+import Toast from "../components/Toast";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ShimmerContentBlock } from "react-shimmer-effects-18";
-import StarRatingsComponent from "../components/StarRatingsComponent";
 import { updateAddToCart } from "../features/cartSlice";
-import ReactImageZoom from "react-image-zoom";
 import { useSearchParams } from "react-router-dom";
 import { getProductById } from "../utility/utils";
-import Toast from "../components/Toast";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
+  const addToCart = useSelector((state) => state.addToCart.value);
   const [searchParams] = useSearchParams();
   const [productData, setProductData] = useState([]);
-  const addToCart = useSelector((state) => state.addToCart.value);
-  const [showToast, setshowToast] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const [toastProps, setToastProps] = useState({
     message: "Item already added !",
     status: "exclamation",
@@ -40,14 +39,14 @@ const ProductPage = () => {
       const productInCart = { ...productData, orderQty: 1 };
       dispatch(updateAddToCart([...addToCart, productInCart]));
     } else {
-      setshowToast(true);
+      setShowToast(true);
       setTimeout(() => {
-        setshowToast(false);
+        setShowToast(false);
       }, 1500);
     }
   };
 
-  const props = {height: 200, zoomWidth: 250, img: productData.image };
+  const props = useMemo(()=>({height: 200, zoomWidth: 250, img: productData.image }),[productData]);
 
   return (
     <Layout>

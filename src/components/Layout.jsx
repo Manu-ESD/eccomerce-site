@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       <Header />
       <div className="flex bg-gray-50">
         {activePath === "/products" && <FiltersContainer />}
-        <div className="mx-auto flex relative justify-center">{children}</div>
+        {children}
       </div>
       <Footer />
     </>

@@ -30,15 +30,13 @@ const BestProducts = ({ category }) => {
 
   // Convert the object of lowest priced products back to an array
   const lowestPricedProductsArray = Object.values(lowestPricedProducts);
-
-  console.log("lowestPricedProductsArray",lowestPricedProductsArray);
-
-  useEffect(() => {
-    const sortedProducts = [...productsData].sort((r1, r2) =>
-      r1.price > r2.price ? 1 : r1.price < r2.price ? -1 : 0
-    );
-    setFilteredProducts(sortedProducts);
-  }, [productsData]);
+// TODO: too much re-rendering check it
+  // useEffect(() => {
+  //   const sortedProducts = [...productsData].sort((r1, r2) =>
+  //     r1.price > r2.price ? 1 : r1.price < r2.price ? -1 : 0
+  //   );
+  //   setFilteredProducts(sortedProducts);
+  // }, [productsData]);
 
   const handleNext = () => {
     scrollToElement("forward");

@@ -52,8 +52,8 @@ code {
 .w-calc-full {
   width: calc(100vw - 2 * 3.1rem); /* Subtract 2 times the padding */
 }
-
-// .js-image-zoom__zoomed-area{
-//   height: 30%  !important; 
-//   width: 30%  !important;
-// }
+.page-crumb-container {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}

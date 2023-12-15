@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import { ShimmerSimpleGallery } from "react-shimmer-effects-18";
 import Layout from "../components/Layout";
 import FilterSelect from "../components/FilterSelect";
+import PageBreadCrumb from "../components/PageBreadCrumb";
 import { commonSortOptions } from "../utility/constants";
 import { getDataFromFirebase } from "../utility/utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,12 +95,14 @@ const Products = () => {
   return (
     <Layout>
       {productsData.length === 0 ? (
-        <div className=" min-h-screen w-[75vw]">
+        <div className="min-h-screen w-[75vw]">
           <ShimmerSimpleGallery card imageHeight={300} caption />
         </div>
       ) : (
         <div className="min-h-screen">
-          <div className="flex flex-row-reverse">
+          <div className="page-crumb-container">
+          <PageBreadCrumb/>
+          <div>
             <FilterSelect
               filterName="Sort by Price"
               filterOptions={commonSortOptions}
@@ -110,6 +113,7 @@ const Products = () => {
               filterOptions={commonSortOptions}
               filterFunction={sortByRating}
             />
+          </div>
           </div>
 
           <div className="flex flex-row items-center flex-wrap gap-6 max-w-fit">
