@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFilteredProductsSlice } from "../features/productsSlice";
+import {
+  updateFilterPillsData,
+  updateFilteredProducts,
+} from "../features/productsSlice";
 import { useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import FilterAccordion from "./FilterAccordion";
@@ -8,7 +11,7 @@ import FilterAccordion from "./FilterAccordion";
 //TODO: [1] Add filter pills [x]
 //TODO: [2] Remove filter pills function [x]
 //TODO: [3] Clear all filter logic [x]
-//TODO: [4] Populated filtersData in product page
+//TODO: [4] Populated filtersData in product page [x]
 //TODO: [5] Add all the other pending filters UI and logic
 
 const FiltersContainer = () => {
@@ -17,8 +20,8 @@ const FiltersContainer = () => {
   const currentCategoryProducts = useSelector(
     (state) => state.currentCategoryProducts.value
   );
+  const filterPillsData = useSelector((state) => state.filterPillsData.value);
   const [priceRange, setPriceRange] = useState({});
-  const [filterPillsData, setFilterPillsData] = useState([]);
   // const [maxFilterShow] = useState(4);
 
   const addFilterPills = (filterAttr, value) => {
@@ -27,7 +30,14 @@ const FiltersContainer = () => {
       const values = value.split("-");
       filterPillData = `Price ${values[0]}-${values[1]}`;
     }
-    setFilterPillsData((prev) => [...prev.filter(data=>data.split(" ")[0].toLowerCase()!==filterAttr), filterPillData]);
+    dispatch(
+      updateFilterPillsData([
+        ...filterPillsData.filter(
+          (data) => data.split(" ")[0].toLowerCase() !== filterAttr
+        ),
+        filterPillData,
+      ])
+    );
   };
 
   const applyFiltersFromUrl = () => {
@@ -66,7 +76,9 @@ const FiltersContainer = () => {
       pathname: window.location.pathname,
       search: currentParams.toString(),
     });
-    setFilterPillsData((prev) => prev.filter((data) => data !== filter));
+    dispatch(
+      updateFilterPillsData(filterPillsData.filter((data) => data !== filter))
+    );
   };
 
   const clearAllFilters = () => {
@@ -79,7 +91,7 @@ const FiltersContainer = () => {
       pathname: window.location.pathname,
       search: currentParams.toString(),
     });
-    setFilterPillsData([]);
+    dispatch(updateFilterPillsData([]));
   };
 
   const filterProducts = (filterType, filterAttr, minRange, maxRange) => {
@@ -91,7 +103,7 @@ const FiltersContainer = () => {
           products[filterAttr] > minRange && products[filterAttr] < maxRange
       );
     }
-    dispatch(updateFilteredProductsSlice(productsToBeFiltered));
+    dispatch(updateFilteredProducts(productsToBeFiltered));
   };
 
   const filterPills = (filter, index) => (
@@ -119,7 +131,10 @@ const FiltersContainer = () => {
             <div className="flex justify-between items-center w-full mb-5">
               <div>FILTERS</div>
               {filterPillsData.length ? (
-                <button className="bg-transparent text-blue-600" onClick={clearAllFilters}>
+                <button
+                  className="bg-transparent text-blue-600"
+                  onClick={clearAllFilters}
+                >
                   CLEAR ALL
                 </button>
               ) : null}

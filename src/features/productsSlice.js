@@ -24,15 +24,28 @@ export const filteredProductsSlice = createSlice({
   name: "filteredProducts",
   initialState: { value: [] },
   reducers: {
-    updateFilteredProductsSlice: (state, action) => {
+    updateFilteredProducts: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+});
+
+export const filterPillsDataSlice = createSlice({
+  name: "filterPillsData",
+  initialState: { value: [] },
+  reducers: {
+    updateFilterPillsData: (state, action) => {
       state.value = action.payload;
     },
   },
 });
 
 export const { updateProductsData } = productsDataSlice.actions;
-export const productsDataReducer = productsDataSlice.reducer;
 export const { updateCurrentCategoryProducts } = currentCategoryProductsSlice.actions;
+export const { updateFilteredProducts } = filteredProductsSlice.actions;
+export const { updateFilterPillsData } = filterPillsDataSlice.actions;
+
+export const productsDataReducer = productsDataSlice.reducer;
 export const currentCategoryProductsReducer = currentCategoryProductsSlice.reducer;
-export const { updateFilteredProductsSlice } = filteredProductsSlice.actions;
 export const filteredProductsReducer = filteredProductsSlice.reducer;
+export const filterPillsDataReducer = filterPillsDataSlice.reducer;
