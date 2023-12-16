@@ -15,6 +15,7 @@ const Products = () => {
   const [searchParams] = useSearchParams();
   const productsData = useSelector((state) => state.productsData.value);
   const currentCategoryProducts = useSelector((state) => state.currentCategoryProducts.value);
+  const filteredProducts = useSelector((state) => state.filteredProducts.value);
   // const searchValue = useSelector((state) => state.searchValue);
   const selectedCategory = searchParams.get("category");
   const selectedSubCategory = searchParams.get("sub-category");
