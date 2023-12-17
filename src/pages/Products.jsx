@@ -23,6 +23,7 @@ const Products = () => {
   const filterPillsData = useSelector((state) => state.filterPillsData.value);
   const filteredProducts = useSelector((state) => state.filteredProducts.value);
   const productsToShow = useMemo(() => {
+    console.log(currentCategoryProducts)
     return filterPillsData.length ? filteredProducts : currentCategoryProducts;
   }, [currentCategoryProducts, filterPillsData, filteredProducts]);
   // const searchValue = useSelector((state) => state.searchValue);

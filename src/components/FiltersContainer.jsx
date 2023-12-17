@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateFilterPillsData,
@@ -14,6 +14,8 @@ import FilterAccordion from "./FilterAccordion";
 //TODO: [4] Populated filtersData in product page [x]
 //TODO: [5] Add all the other pending filters UI and logic
 
+//! issues with discountPercentage and also filter not working not some issue occurred in refactoring and also handle edge cases
+
 const FiltersContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,6 +24,13 @@ const FiltersContainer = () => {
   );
   const filterPillsData = useSelector((state) => state.filterPillsData.value);
   const [priceRange, setPriceRange] = useState({});
+  const [discountRange, setDiscountRange] = useState({});
+  const [selectedBrands,setSelectedBrands] = useState([]);
+  // discountPercentage
+  const currentCategoryBrands = useMemo(
+    () => [...new Set(currentCategoryProducts.map((pd) => pd.brand))],
+    [currentCategoryProducts]
+  );
   // const [maxFilterShow] = useState(4);
 
   const addFilterPills = (filterAttr, value) => {
@@ -29,6 +38,15 @@ const FiltersContainer = () => {
     if (filterAttr === "price") {
       const values = value.split("-");
       filterPillData = `Price ${values[0]}-${values[1]}`;
+    }
+    if (filterAttr === "brand") {
+      const values = value.split("%").join('|');
+      filterPillData = `Brands in ${values}`;
+    }
+
+    if (filterAttr === "discountPercentage") {
+      const values = value.split("%").join('|');
+      filterPillData = `Discount ${values}`;
     }
     dispatch(
       updateFilterPillsData([
@@ -57,9 +75,19 @@ const FiltersContainer = () => {
     }
   };
 
-  const addFiltersToUrlParams = (filterAttr, minRange, maxRange) => {
+  const addFiltersToUrlParams = (
+    filterType,
+    filterAttr,
+    { minRange, maxRange, selectedValues }
+  ) => {
+    let valueToSet;
     const currentParams = new URLSearchParams(window.location.search);
-    const valueToSet = `${minRange}-${maxRange}`;
+    if (filterType === "range") {
+      valueToSet = `${minRange}-${maxRange}`;
+    }
+    if (filterType === "value") {
+      valueToSet = selectedValues.join("%");
+    }
     currentParams.set(filterAttr, valueToSet);
     navigate({
       pathname: window.location.pathname,
@@ -94,8 +122,8 @@ const FiltersContainer = () => {
     dispatch(updateFilterPillsData([]));
   };
 
-  const filterProducts = (filterType, filterAttr, minRange, maxRange) => {
-    addFiltersToUrlParams(filterAttr, minRange, maxRange);
+  const filterProducts = (filterType, filterAttr, {minRange,maxRange,selectedValues}) => {
+    addFiltersToUrlParams(filterType, filterAttr, {minRange,maxRange,selectedValues});
     let productsToBeFiltered;
     if (filterType === "range") {
       productsToBeFiltered = currentCategoryProducts.filter(
@@ -103,6 +131,12 @@ const FiltersContainer = () => {
           products[filterAttr] > minRange && products[filterAttr] < maxRange
       );
     }
+
+    if(filterType === "value"){
+      productsToBeFiltered = currentCategoryProducts.filter(
+        (products) =>selectedValues.includes(products[filterAttr]));
+    }
+
     dispatch(updateFilteredProducts(productsToBeFiltered));
   };
 
@@ -122,6 +156,19 @@ const FiltersContainer = () => {
   useEffect(() => {
     applyFiltersFromUrl();
   }, []);
+
+  useEffect(()=>{
+    if(selectedBrands.length){
+      filterProducts(
+        "value",
+        "brand",
+        {
+          selectedValues:selectedBrands
+        }
+      )
+    }
+
+  },[selectedBrands])
 
   return (
     <>
@@ -180,8 +227,10 @@ const FiltersContainer = () => {
                   filterProducts(
                     "range",
                     "price",
-                    priceRange.min,
-                    priceRange.max
+                    {
+                    minRange:priceRange.min,
+                    maxRange:priceRange.max
+                    }
                   )
                 }
               >
@@ -190,8 +239,70 @@ const FiltersContainer = () => {
             </div>
           </FilterAccordion>
           <FilterAccordion title="CUSTOMER RATINGS">Test</FilterAccordion>
-          <FilterAccordion title="BRAND">Test</FilterAccordion>
-          <FilterAccordion title="TYPE">Test</FilterAccordion>
+          <FilterAccordion title="BRAND">
+            {
+              <div className="">
+                {currentCategoryBrands?.map((data) => (
+                  <div className="block" key={`${data}-option`}>
+                    <input id={`${data}-option`} value={data} type="checkbox" className="me-1" onChange={(e)=>{
+                      setSelectedBrands(prev=>[...prev,(e.target.value)])
+                    }} />
+                    <label
+                      htmlFor={`${data}-option`}
+                    >
+                      {data}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            }
+          </FilterAccordion>
+          <FilterAccordion title="DISCOUNT">
+          <div className="flex justify-between items-center">
+              <input
+                id="min-discount-input"
+                className="w-50 p-[5px] text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
+                type="number"
+                placeholder="Min"
+                value={discountRange.min}
+                onChange={(e) =>
+                  setDiscountRange((prev) => ({
+                    max: prev.max,
+                    min: e.target.value,
+                  }))
+                }
+              />
+              <span className="mx-1">to</span>
+              <input
+                id="max-discount-input"
+                className="w-50 p-[5px] text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
+                type="number"
+                placeholder="Max"
+                value={discountRange.max}
+                onChange={(e) =>
+                  setDiscountRange((prev) => ({
+                    min: prev.min,
+                    max: e.target.value,
+                  }))
+                }
+              />
+              <button
+                className="btn btn-sm shadow-md mx-1 bg-white hover:bg-slate-100"
+                onClick={() =>
+                  filterProducts(
+                    "range",
+                    "discountPercentage",
+                    {
+                    minRange:discountRange.min,
+                    maxRange:discountRange.max
+                    }
+                  )
+                }
+              >
+                Go
+              </button>
+            </div>
+          </FilterAccordion>
         </div>
       </div>
     </>
