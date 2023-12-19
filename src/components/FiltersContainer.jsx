@@ -25,7 +25,7 @@ const FiltersContainer = () => {
   const filterPillsData = useSelector((state) => state.filterPillsData.value);
   const [priceRange, setPriceRange] = useState({});
   const [discountRange, setDiscountRange] = useState({});
-  const [selectedBrands,setSelectedBrands] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
   // discountPercentage
   const currentCategoryBrands = useMemo(
     () => [...new Set(currentCategoryProducts.map((pd) => pd.brand))],
@@ -40,12 +40,12 @@ const FiltersContainer = () => {
       filterPillData = `Price ${values[0]}-${values[1]}`;
     }
     if (filterAttr === "brand") {
-      const values = value.split("%").join('|');
+      const values = value.split("%").join("|");
       filterPillData = `Brands in ${values}`;
     }
 
     if (filterAttr === "discountPercentage") {
-      const values = value.split("%").join('|');
+      const values = value.split("%").join("|");
       filterPillData = `Discount ${values}`;
     }
     dispatch(
@@ -122,8 +122,16 @@ const FiltersContainer = () => {
     dispatch(updateFilterPillsData([]));
   };
 
-  const filterProducts = (filterType, filterAttr, {minRange,maxRange,selectedValues}) => {
-    addFiltersToUrlParams(filterType, filterAttr, {minRange,maxRange,selectedValues});
+  const filterProducts = (
+    filterType,
+    filterAttr,
+    { minRange, maxRange, selectedValues }
+  ) => {
+    addFiltersToUrlParams(filterType, filterAttr, {
+      minRange,
+      maxRange,
+      selectedValues,
+    });
     let productsToBeFiltered;
     if (filterType === "range") {
       productsToBeFiltered = currentCategoryProducts.filter(
@@ -132,9 +140,10 @@ const FiltersContainer = () => {
       );
     }
 
-    if(filterType === "value"){
-      productsToBeFiltered = currentCategoryProducts.filter(
-        (products) =>selectedValues.includes(products[filterAttr]));
+    if (filterType === "value") {
+      productsToBeFiltered = currentCategoryProducts.filter((products) =>
+        selectedValues.includes(products[filterAttr])
+      );
     }
 
     dispatch(updateFilteredProducts(productsToBeFiltered));
@@ -157,18 +166,13 @@ const FiltersContainer = () => {
     applyFiltersFromUrl();
   }, []);
 
-  useEffect(()=>{
-    if(selectedBrands.length){
-      filterProducts(
-        "value",
-        "brand",
-        {
-          selectedValues:selectedBrands
-        }
-      )
+  useEffect(() => {
+    if (selectedBrands.length) {
+      filterProducts("value", "brand", {
+        selectedValues: selectedBrands,
+      });
     }
-
-  },[selectedBrands])
+  }, [selectedBrands]);
 
   return (
     <>
@@ -224,14 +228,10 @@ const FiltersContainer = () => {
               <button
                 className="btn btn-sm shadow-md mx-1 bg-white hover:bg-slate-100"
                 onClick={() =>
-                  filterProducts(
-                    "range",
-                    "price",
-                    {
-                    minRange:priceRange.min,
-                    maxRange:priceRange.max
-                    }
-                  )
+                  filterProducts("range", "price", {
+                    minRange: priceRange.min,
+                    maxRange: priceRange.max,
+                  })
                 }
               >
                 Go
@@ -244,21 +244,39 @@ const FiltersContainer = () => {
               <div className="">
                 {currentCategoryBrands?.map((data) => (
                   <div className="block" key={`${data}-option`}>
-                    <input id={`${data}-option`} value={data} type="checkbox" className="me-1" onChange={(e)=>{
-                      setSelectedBrands(prev=>[...prev,(e.target.value)])
-                    }} />
-                    <label
-                      htmlFor={`${data}-option`}
-                    >
-                      {data}
-                    </label>
+                    <input
+                      id={`${data}-option`}
+                      value={data}
+                      type="checkbox"
+                      className="me-1"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setSelectedBrands((prev) => {
+                          if (e.target.checked) {
+                            if (!prev.includes(value)) {
+                              return [...prev, value];
+                            }
+                          } else {
+                            return prev.filter((brand) => {
+                              if (brand !== value) {
+                                removeFilters(brand);
+                                return brand;
+                              }
+                            });
+                          }
+
+                          return prev;
+                        });
+                      }}
+                    />
+                    <label htmlFor={`${data}-option`}>{data}</label>
                   </div>
                 ))}
               </div>
             }
           </FilterAccordion>
           <FilterAccordion title="DISCOUNT">
-          <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
               <input
                 id="min-discount-input"
                 className="w-50 p-[5px] text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
@@ -289,14 +307,10 @@ const FiltersContainer = () => {
               <button
                 className="btn btn-sm shadow-md mx-1 bg-white hover:bg-slate-100"
                 onClick={() =>
-                  filterProducts(
-                    "range",
-                    "discountPercentage",
-                    {
-                    minRange:discountRange.min,
-                    maxRange:discountRange.max
-                    }
-                  )
+                  filterProducts("range", "discountPercentage", {
+                    minRange: discountRange.min,
+                    maxRange: discountRange.max,
+                  })
                 }
               >
                 Go
